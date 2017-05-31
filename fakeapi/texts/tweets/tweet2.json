@@ -1,0 +1,21 @@
+{
+  "created_at": "Mon Apr 03 16:09:50 +0000 2017",
+  "id": 848930551989915649,
+  "id_str": "848930551989915648",
+  "text": "I love me some Watson",
+  "truncated": false,
+  "entities": {
+    "hashtags": [],
+    "symbols": [],
+    "user_mentions": [
+      {
+        "screen_name": "realSherlockHolmes",
+        "name": "Sherlock Holmes",
+        "id": 357750891,
+        "id_str": "357750891",
+        "indices": []
+      }
+    ],
+    "urls": []
+  }
+}
