@@ -36,8 +36,7 @@ app.get('/api/twytta/', function (req, res) {
 
 app.get('/api/instapic/', function (req, res) {
 
-  data = getJsonFiles('texts/instagram');
-  res.send(data);
+  res.send("Hello InstaPic");
 
 });
 
@@ -50,21 +49,21 @@ app.get('/api/friendface/', function (req, res) {
 
 app.get('/api/mail/', function (req, res) {
 
-  data = getJsonFiles('texts/facebook');
+  data = getJsonFiles('texts/mail');
   res.send(data);
 
 });
 
 app.get('/api/sms/', function (req, res) {
 
-  data = getJsonFiles('texts/facebook');
+  data = getJsonFiles('texts/sms');
   res.send(data);
 
 });
 
 app.get('/api/notes/', function (req, res) {
 
-  data = getJsonFiles('texts/facebook');
+  data = getJsonFiles('texts/notes');
   res.send(data);
 
 });
