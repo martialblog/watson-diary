@@ -36,7 +36,8 @@ app.get('/api/twytta/', function (req, res) {
 
 app.get('/api/instapic/', function (req, res) {
 
-  res.send("Hello InstaPic");
+  data = getJsonFiles('texts/instagram');
+  res.send(data);
 
 });
 
