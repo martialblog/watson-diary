@@ -31,7 +31,7 @@ def main():
     cf = load_configuration("credentials.conf")
     ta = tone_analyser(cf)
 
-    print(json.dumps(ta.tone(text='I am very happy'), indent=2))
+    # print(json.dumps(ta.tone(text='I am very happy'), indent=2))
 
 
 if __name__ == "__main__":
