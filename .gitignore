@@ -1,2 +1,4 @@
 node_modules/
 npm-debug.log
+watson-connector/credentials.conf
+.venv/
