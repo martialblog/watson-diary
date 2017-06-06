@@ -18,6 +18,32 @@
     <div class="row">
       <div class="large-12 columns">
         <div class="callout">
+        <h5>List All Entries</h5>
+
+          <input type="text" id="all_username" value="username"></input>
+          <table id="all_entries">
+            <thead>
+              <tr>
+                <th width="50">Username</th>
+                <th width="100">Date</th>
+                <th width="150">Report</th>
+              </tr>
+            </thead>
+            <tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns">
+        <div class="callout">
+        <h5>Add New Entry</h5>
+
+        <input type="text" id="new_username" value="username"></input>
+        <input type="text" id="new_date" value="2017-05-31"></input>
+         <a class="expanded button" id="new_button" href="#0">Add Entry</a>
 
         </div>
       </div>
@@ -26,5 +52,6 @@
     <script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='js/vendor/what-input.js') }}"></script>
     <script src="{{ url_for('static', filename='js/vendor/foundation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
   </body>
 </html>
