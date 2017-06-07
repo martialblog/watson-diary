@@ -22,6 +22,18 @@ class WatsonConnector():
             version=version
         )
 
+
+    def mock_watson_ta(self, data):
+        """
+        Mocking the IBM Watson Tone Analyzer call for testing.
+        """
+
+        with open('response.json.example') as data_file:
+            data = json.load(data_file)
+
+        return data
+
+
     def analyze_tone(self, user, date):
         """
         Returns the Tone Analyzer Data for a specific user and date.
@@ -33,8 +45,11 @@ class WatsonConnector():
         twitter = ApiAggregator("http://localhost:3000/api/twytta/", "created_at")
         aggregation = twitter.get_for_date(date)
 
-        # payload = json.dumps(ta.tone(text=aggregation), indent=2)
-        payload = aggregation
+        # Real Call
+        # payload = self.tone_analyzer.tone(text=aggregation)
+
+        # Fake Call
+        payload = self.mock_watson_ta(aggregation)
 
         new_id = self.db.put_report(user, date, payload)
 
