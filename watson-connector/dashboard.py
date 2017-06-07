@@ -20,7 +20,7 @@ def create_app():
     app.secret_key = os.urandom(128)
     cors.CORS(app)
 
-    conf = utils.load_configuration("credentials.conf")
+    conf = utils.load_configuration("drwatson.conf")
 
     Mongo = MongoDBConnector(server=conf["database"]["server"],
                              port=conf["database"]["port"]

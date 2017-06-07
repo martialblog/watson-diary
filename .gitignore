@@ -1,5 +1,5 @@
 node_modules/
 npm-debug.log
-watson-connector/credentials.conf
+watson-connector/*.conf
 .venv/
 __pycache__/

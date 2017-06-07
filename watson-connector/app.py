@@ -2,16 +2,18 @@
 
 
 import dashboard
+import utils
 
 
 def main():
 
+    conf = utils.load_configuration("drwatson.conf")
     app = dashboard.create_app()
 
     # TODO: Commandline or Config Args
     app.run(host='0.0.0.0',
-            debug=True,
-            port=5000)
+            debug=conf.getboolean('app', 'Debug'),
+            port=int(conf["app"]["port"]))
 
 if __name__ == "__main__":
     main()
