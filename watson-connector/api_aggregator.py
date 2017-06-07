@@ -14,7 +14,7 @@ class ApiAggregator():
     params: datefield: Name of the date field within the API.
 
     Example usage:
-    twitter = ApiAggregator("http://localhost:3000/api/twytta/", "created_at")
+
     print(twitter.get_for_date("2017-04-03"))
 
     """
@@ -63,16 +63,10 @@ class ApiAggregator():
         If no data is available an empty object is returned.
 
         params: date - date as string (format: YYYY-MM-DD)
-
-        Example Response:
-          { date: 2017-05-31, text: lorem ipsum dolor }
         """
 
         try:
-            resp = json.dumps(
-                {'date': date,
-                 'text': self.data[date]}
-            )
+            resp = self.data[date]
         except KeyError as e:
             resp = {}
         finally:

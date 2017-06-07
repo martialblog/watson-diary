@@ -4,9 +4,7 @@
 import argparse
 import flask
 import flask_cors as cors
-import json
 import os
-import sys
 
 from db_connector import MongoDBConnector
 from watson_connector import WatsonConnector
@@ -48,6 +46,7 @@ def create_app():
 
         has_entry = Mongo.get_report(user, date)
 
+        # TODO: There's gotta be a better way for this
         if not str(has_entry) == "[]":
             return has_entry
 
