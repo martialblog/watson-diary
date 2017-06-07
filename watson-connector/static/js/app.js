@@ -8,7 +8,8 @@ $('#all_username').keydown(function(event) {
       $.getJSON(reportAPI, function(data) {
         $.each(data, function(n, i) {
           console.log(i);
-          $('#all_entries tbody').append('<tr class="child"><td>'+i.user+'</td><td>'+i.date+'</td><td>'+i.payload+'</td></tr>');
+          var payload = JSON.stringify(i.payload);
+          $('#all_entries tbody').append('<tr class="child"><td>'+i.user+'</td><td>'+i.date+'</td><td>'+ payload +'</td></tr>');
         });
       });
 
