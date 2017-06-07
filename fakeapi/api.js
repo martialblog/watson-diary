@@ -4,7 +4,7 @@ var fs = require('fs');
 var app = express();
 var PORT = 3000;
 
-function readJsonFileSync(filepath, encoding){
+function readJsonFileSync(filepath, encoding) {
 
   if (typeof (encoding) == 'undefined'){
     encoding = 'utf8';
@@ -14,10 +14,15 @@ function readJsonFileSync(filepath, encoding){
 
 }
 
-function getJsonFiles(path){
+function getJsonFiles(path) {
 
   data = [];
-  files = fs.readdirSync(path);
+
+  try {
+    files = fs.readdirSync(path);
+  } catch (err) {
+    return data;
+  }
 
   for (var i in files) {
     // TODO: Filepaths are not OS safe
@@ -27,44 +32,50 @@ function getJsonFiles(path){
   return data;
 }
 
-app.get('/api/twytta/', function (req, res) {
+app.get('/api/twytta/:username', function (req, res) {
 
-  data = getJsonFiles('texts/tweets');
+  username = req.params.username;
+  data = getJsonFiles('texts/tweets/' + username);
   res.send(data);
 
 });
 
-app.get('/api/instapic/', function (req, res) {
+app.get('/api/instapic/:username', function (req, res) {
 
-  data = getJsonFiles('texts/instagram');
+  username = req.params.username;
+  data = getJsonFiles('texts/instagram' + username);
   res.send(data);
 
 });
 
-app.get('/api/friendface/', function (req, res) {
+app.get('/api/friendface/:username', function (req, res) {
 
-  data = getJsonFiles('texts/facebook');
+  username = req.params.username;
+  data = getJsonFiles('texts/facebook' + username);
   res.send(data);
 
 });
 
-app.get('/api/mail/', function (req, res) {
+app.get('/api/mail/:username', function (req, res) {
 
-  data = getJsonFiles('texts/mail');
+  username = req.params.username;
+  data = getJsonFiles('texts/mail' + username);
   res.send(data);
 
 });
 
-app.get('/api/sms/', function (req, res) {
+app.get('/api/sms/:username', function (req, res) {
 
-  data = getJsonFiles('texts/sms');
+  username = req.params.username;
+  data = getJsonFiles('texts/sms' + username);
   res.send(data);
 
 });
 
-app.get('/api/notes/', function (req, res) {
+app.get('/api/notes/:username', function (req, res) {
 
-  data = getJsonFiles('texts/notes');
+  username = req.params.username;
+  data = getJsonFiles('texts/notes' + username);
   res.send(data);
 
 });
