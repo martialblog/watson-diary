@@ -37,8 +37,27 @@ def create_app():
     def show_dashboard():
         return flask.render_template('index.html')
 
+    @app.route('/v1/api/watson/users', methods=['GET'])
+    def get_users():
+        """
+        Returns all users.
+        """
 
-    @app.route('/v1/api/watson/data/<path:user>/reports/<path:date>', methods=['PUT'])
+        data = Mongo.get_users()
+
+        return data
+
+    @app.route('/v1/api/watson/users/<path:user>/reports', methods=['GET'])
+    def get_reports(user):
+        """
+        Returns the saved report for the specified user and date as JSON.
+        """
+
+        data = Mongo.get_reports(user)
+
+        return data
+
+    @app.route('/v1/api/watson/users/<path:user>/reports/<path:date>', methods=['PUT'])
     def update_report(user, date):
         """
         Generates a report for the specified user and date.
@@ -54,18 +73,7 @@ def create_app():
 
         return new_entry
 
-    @app.route('/v1/api/watson/data/<path:user>/reports', methods=['GET'])
-    def get_reports(user):
-        """
-        Returns the saved report for the specified user and date as JSON.
-        """
-
-        data = Mongo.get_reports(user)
-
-        return data
-
-
-    @app.route('/v1/api/watson/data/<path:user>/reports/<path:date>', methods=['GET'])
+    @app.route('/v1/api/watson/users/<path:user>/reports/<path:date>', methods=['GET'])
     def get_report_for_date(user, date):
         """
         Returns the saved report for the specified user and date as JSON.

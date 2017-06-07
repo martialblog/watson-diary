@@ -17,6 +17,22 @@ class MongoDBConnector():
         self.db = self.client["dr_watson_db"]
         self.reports = self.db['reports']
 
+    def get_users(self):
+        """
+        Get all users.
+        """
+
+        try:
+            data = self.reports.aggregate(
+                [
+                    {"$group": {"_id": "$user"}}
+                ]
+            )
+        except Exception as e:
+            data = {}
+        finally:
+            return dumps(data)
+
     def get_reports(self, user):
         """
         Get all reports for a specific user

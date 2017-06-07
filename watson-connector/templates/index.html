@@ -9,45 +9,56 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}" />
   </head>
   <body>
-    <div class="row">
+    <div class="row" style="margin-top:1em">
+
       <div class="large-12 columns">
-        <h3>Dr. Watson Admin Dashboard</h3>
-      </div>
-    </div>
+        <h3>Dr. Watson Dashboard</h3>
 
-    <div class="row">
-      <div class="large-12 columns">
-        <div class="callout">
-        <h5>List All Entries</h5>
+        <ul class="tabs" data-tabs id="example-tabs">
+          <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">User Management</a></li>
+          <li class="tabs-title"><a href="#panel2">Feed Management</a></li>
+        </ul>
 
-          <input type="text" id="all_username" value="username"></input>
-          <table id="all_entries">
-            <thead>
-              <tr>
-                <th width="50">Username</th>
-                <th width="100">Date</th>
-                <th width="150">Report</th>
-              </tr>
-            </thead>
-            <tbody>
-          </table>
+        <div class="tabs-content" data-tabs-content="example-tabs">
+          <div class="tabs-panel is-active" id="panel1">
 
+            <h6>Users<h6>
+                <ul id="user_list">
+                </ul>
+
+          <!--   <h5>List All Entries</h5> -->
+          <!--   <input type="text" id="all_username" value="username"></input> -->
+          <!--   <table id="all_entries"> -->
+          <!--     <thead> -->
+          <!--       <tr> -->
+          <!--         <th width="50">Username</th> -->
+          <!--         <th width="100">Date</th> -->
+          <!--         <th width="150">Report</th> -->
+          <!--       </tr> -->
+          <!--     </thead> -->
+          <!--     <tbody> -->
+          <!--   </table> -->
+          <!-- </div> -->
+
+          <div class="tabs-panel" id="panel2">
+            <p>Two</p>
+
+          </div>
         </div>
+
       </div>
     </div>
 
-    <div class="row">
-      <div class="large-12 columns">
-        <div class="callout">
-        <h5>Add New Entry</h5>
+    <!--     <div class="callout"> -->
+    <!--     <h5>Add New Entry</h5> -->
 
-        <input type="text" id="new_username" value="username"></input>
-        <input type="text" id="new_date" value="2017-05-31"></input>
-         <a class="expanded button" id="new_button" href="#0">Add Entry</a>
+    <!--     <input type="text" id="new_username" value="username"></input> -->
+    <!--     <input type="text" id="new_date" value="2017-05-31"></input> -->
+    <!--      <a class="expanded button" id="new_button" href="#0">Add Entry</a> -->
 
-        </div>
-      </div>
-    </div>
+    <!--     </div> -->
+    <!--   </div> -->
+    <!-- </div> -->
 
     <script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='js/vendor/what-input.js') }}"></script>

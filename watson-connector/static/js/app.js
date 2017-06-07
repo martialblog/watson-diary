@@ -1,19 +1,15 @@
 $(document).foundation();
 
-$('#all_username').keydown(function(event) {
-    if (event.keyCode == 13) {
-      var reportAPI = "http://localhost:5000/v1/api/watson/data/"+$("#all_username").val()+"/reports";
+// $('#user_list ul').empty();
+$.getJSON('http://localhost:5000/v1/api/watson/users', function(data) {
+  $.each(data, function(n, i) {
 
-      $('#all_entries tbody').empty();
-      $.getJSON(reportAPI, function(data) {
-        $.each(data, function(n, i) {
-          console.log(i);
-          var payload = JSON.stringify(i.payload);
-          $('#all_entries tbody').append('<tr class="child"><td>'+i.user+'</td><td>'+i.date+'</td><td>'+ payload +'</td></tr>');
-        });
-      });
+    var username = i._id;
+    console.log(username);
 
-    };
+    $('#user_list').append('<li class="child">'+ username +'</li>');
+  });
+
 });
 
 $("#new_button").click(function() {
