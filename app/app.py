@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 
 
-import dashboard
+import api
 import utils
 
 
 def main():
 
     conf = utils.load_configuration("drwatson.conf")
-    app = dashboard.create_app()
+    app = api.create_app()
 
     # TODO: Commandline or Config Args
     app.run(host='0.0.0.0',

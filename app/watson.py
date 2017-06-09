@@ -4,7 +4,7 @@
 import json
 import watson_developer_cloud as wdc
 
-from api_aggregator import ApiAggregator
+from aggregator import ApiAggregator
 
 
 class WatsonConnector():

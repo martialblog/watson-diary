@@ -6,8 +6,8 @@ import flask
 import flask_cors as cors
 import os
 
-from db_connector import MongoDBConnector
-from watson_connector import WatsonConnector
+from db import MongoDBConnector
+from watson import WatsonConnector
 import utils
 
 
