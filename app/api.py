@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
 
+from bson import json_util
 import argparse
 import flask
 import flask_cors as cors
 import os
-
-from db import MongoDBConnector
-from watson import WatsonConnector
+import pymongo
 import utils
 
 
@@ -16,72 +15,112 @@ def create_app():
     Defines routes and returns a Flask object.
     """
 
+    conf = utils.load_configuration("drwatson.conf")
+
     app = flask.Flask(__name__)
     app.secret_key = os.urandom(128)
     cors.CORS(app)
 
-    conf = utils.load_configuration("drwatson.conf")
+    mongo = pymongo.MongoClient("localhost", 27017)
+    db = mongo.drwatson
 
-    Mongo = MongoDBConnector(server=conf["database"]["server"],
-                             port=conf["database"]["port"]
-    )
+    # Watson = WatsonConnector(url=conf["watson"]["url"],
+    #                          username=conf["watson"]["username"],
+    #                          password=conf["watson"]["password"],
+    #                          version=conf["watson"]["version"],
+    #                          db_connector="test"
+    # )
 
-    Watson = WatsonConnector(url=conf["watson"]["url"],
-                             username=conf["watson"]["username"],
-                             password=conf["watson"]["password"],
-                             version=conf["watson"]["version"],
-                             db_connector=Mongo
-    )
-
-    @app.route('/')
-    def show_dashboard():
-        return flask.render_template('index.html')
-
-    @app.route('/v1/api/watson/users', methods=['GET'])
+    @app.route('/users', methods=['GET'])
     def get_users():
         """
         Returns all users.
         """
 
-        data = Mongo.get_users()
+        users = db.users
+        output = []
 
-        return data
+        for s in users.find():
+            output.append(s)
 
-    @app.route('/v1/api/watson/users/<path:user>/reports', methods=['GET'])
-    def get_reports(user):
+        return json_util.dumps(output)
+
+    @app.route('/users/<path:username>', methods=['GET'])
+    def get_user(username):
         """
-        Returns the saved report for the specified user and date as JSON.
-        """
-
-        data = Mongo.get_reports(user)
-
-        return data
-
-    @app.route('/v1/api/watson/users/<path:user>/reports/<path:date>', methods=['PUT'])
-    def update_report(user, date):
-        """
-        Generates a report for the specified user and date.
+        Returns Profile for specified user.
         """
 
-        has_entry = Mongo.get_report(user, date)
+        user = db.users.find({"username": username})
 
-        # TODO: There's gotta be a better way for this
-        if not str(has_entry) == "[]":
-            return has_entry
+        return json_util.dumps(user)
 
-        new_entry = Watson.analyze_tone(user, date)
-
-        return new_entry
-
-    @app.route('/v1/api/watson/users/<path:user>/reports/<path:date>', methods=['GET'])
-    def get_report_for_date(user, date):
+    @app.route('/users/<path:username>/reports', methods=['GET'])
+    def get_user_reports(username):
         """
-        Returns the saved report for the specified user and date as JSON.
+        Returns all reports for specified user.
         """
 
-        data = Mongo.get_report(user, date)
+        user = db.reports.find({"username": username})
 
-        return data
+        return json_util.dumps(user)
 
+    @app.route('/users/<path:username>/feeds', methods=['GET'])
+    def get_report_for_(username):
+        """
+        Returns all feeds for specified user.
+        """
+
+        user = db.users.find({"username": username})
+        u = list(user)
+
+        try:
+            feeds = u[0]["feeds"]
+        except IndexError as e:
+            feeds = {}
+
+        return json_util.dumps(feeds)
+
+    @app.route('/users/<path:username>', methods=['POST'])
+    def post_user(username):
+        """
+        Create a new user profile.
+        """
+        users = db.users
+        user = users.find({"username": username})
+
+        if user:
+            flask.abort(409)
+
+        username = request.json['username']
+        password = request.json['password']
+        mail = request.json['mail']
+        feeds = request.json['feeds']
+
+        new_user = { "username": username,
+                     "mail": mail,
+                     "password": password,
+                     "feeds": feeds}
+
+        users.insert_one(new_user)
+
+        # TODO: Proper Return value
+        return flask.jsonify({"result": []}, 201)
+
+    @app.route('/users/<path:username>', methods=['DELETE'])
+    def delete_user(username):
+        """
+        Delete a user profile.
+        """
+        users = db.users
+        user = users.find({"username": username})
+
+        if user:
+            flask.abort(404)
+
+        users.delete_one({"username": username})
+
+        # TODO: Proper Return value
+        return flask.jsonify({"result": []}, 200)
 
     return app
