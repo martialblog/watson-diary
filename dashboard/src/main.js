@@ -4,9 +4,6 @@ import Vuetify from 'vuetify';
 import VueRouter from 'vue-router';
 import Routes from './routes.js';
 
-import Welcome from './Welcome.vue';
-Vue.component('welcome', Welcome);
-
 Vue.use(VueRouter);
 Vue.use(Vuetify);
 
