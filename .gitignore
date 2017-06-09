@@ -3,3 +3,4 @@ npm-debug.log
 watson-connector/*.conf
 .venv/
 __pycache__/
+yarn.lock
