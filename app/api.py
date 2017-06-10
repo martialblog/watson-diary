@@ -31,6 +31,30 @@ def create_app():
     #                          db_connector="test"
     # )
 
+    @app.route('/feeds', methods=['GET'])
+    def get_feeds():
+        """
+        Returns all available feeds.
+        """
+
+        feeds = db.feeds
+        output = []
+
+        for s in feeds.find():
+            output.append(s)
+
+        return json_util.dumps(output)
+
+    @app.route('/feeds/<path:feed>', methods=['GET'])
+    def get_feed(feed):
+        """
+        Returns info for specified feed.
+        """
+
+        feed = db.feeds.find({"key": feed})
+
+        return json_util.dumps(feed)
+
     @app.route('/users', methods=['GET'])
     def get_users():
         """
@@ -55,18 +79,29 @@ def create_app():
 
         return json_util.dumps(user)
 
+    @app.route('/reports/<path:username>/<path:date>', methods=['GET'])
+    def get_user_report_date(username, date):
+        """
+        Returns specified report for specified user.
+        """
+
+        report = db.reports.find({"username": username, "date": date})
+
+        return json_util.dumps(report)
+
+    @app.route('/reports/<path:username>', methods=['GET'])
     @app.route('/users/<path:username>/reports', methods=['GET'])
     def get_user_reports(username):
         """
         Returns all reports for specified user.
         """
 
-        user = db.reports.find({"username": username})
+        reports = db.reports.find({"username": username})
 
-        return json_util.dumps(user)
+        return json_util.dumps(reports)
 
     @app.route('/users/<path:username>/feeds', methods=['GET'])
-    def get_report_for_(username):
+    def get_feeds_for_user(username):
         """
         Returns all feeds for specified user.
         """
@@ -92,6 +127,7 @@ def create_app():
         if user:
             flask.abort(409)
 
+        # TODO: Validate request data
         username = request.json['username']
         password = request.json['password']
         mail = request.json['mail']
