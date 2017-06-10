@@ -151,7 +151,7 @@ def create_app():
         users = db.users
         user = users.find({"username": username})
 
-        if user:
+        if not user:
             flask.abort(404)
 
         users.delete_one({"username": username})

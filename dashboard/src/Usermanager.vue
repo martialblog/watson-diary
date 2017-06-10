@@ -13,8 +13,7 @@
               <v-list-tile-sub-title v-html="item.feeds"></v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
-              <v-list-tile-action-text>Delete</v-list-tile-action-text>
-              <v-icon class="red--text text--lighten-1">close</v-icon>
+              <v-btn icon @click.native="delete_user(item.username)"><v-icon class="red--text text--lighten-1">close</v-icon></v-btn>
             </v-list-tile-action>
           </v-list-tile>
         </v-list-item>
@@ -68,9 +67,14 @@
       }
     },
     methods: {
+      delete_user: function (username) {
+        this.$http.delete('http://localhost:5000/users/' + username).then(function(data){
+          console.log(data);
+        })
+      },
       create_user: function () {
         this.dialog = false;
-        this.$http.post('http://localhost:5000/users/'  + this.newUser.username, {
+        this.$http.post('http://localhost:5000/users/' + this.newUser.username, {
 
           username: this.newUser.username,
           mail: this.newUser.mail,
