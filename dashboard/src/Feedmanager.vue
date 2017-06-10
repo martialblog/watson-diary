@@ -1,18 +1,37 @@
 <template>
   <v-container fluid>
-    <v-card>
-      <v-card-text class="purple darken-1 white--text mt-3">
-        <div>{{ title }}</div>
-      </v-card-text>
-    </v-card>
-  </v-container>
+    <h4>Feeds</h4>
+    <v-layout row wrap>
+      <v-flex xs12 md6>
+        <v-subheader>Activated Feeds</v-subheader>
+        <v-card class="elevation-0">
+          <v-card-text>
+            <v-switch v-for="feed in availableFeeds"
+                      :label="feed.name"
+                      v-model="activatedFeeds"
+                      :value="feed.id"
+                      success
+                      dark
+                      ></v-switch>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+</v-container>
 </template>
 
 <script>
   export default {
     data () {
       return {
-        title: 'Feeds',
+        availableFeeds: [
+          {name: "Twitter", id: "twitter"},
+          {name: "Facebook", id: "facebook"},
+          {name: "Instagram", id: "instagram"},
+          {name: "Mail", id: "mail"},
+          {name: "SMS", id: "sms"}
+        ],
+        activatedFeeds: [],
       }
     }
   }

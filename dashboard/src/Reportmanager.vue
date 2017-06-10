@@ -1,42 +1,47 @@
 <template>
   <v-container fluid>
-    <v-layout row >
-      <v-flex xs7>
-        <v-date-picker v-model="picker" landscape></v-date-picker>
-      </v-flex>
-      <v-flex xs5>
-    <v-card>
-      <v-card-text>
-        <div>{{ text }}</div>
-      </v-card-text>
-    </v-card>
+    <h4>Reports</h4>
+    <v-layout row wrap>
+      <v-flex xs4>
+        <v-subheader>Search Reports for User</v-subheader>
+     </v-flex>
+      <v-flex xs12 sm5>
+        <v-text-field
+          name="input-1-3"
+          label="Username"
+          single-line
+          prepend-icon="search"
+          ></v-text-field>
       </v-flex>
     </v-layout>
 
-    <v-layout row class="mt-3">
-      <v-flex xs12>
-        <v-card height="500px">
-          <v-bottom-nav
-            absolute
-            shift
-            value="true"
-            :class="{
-                    'blue-grey': e2 === 1,
-                    'teal': e2 === 2
-                    }"
-            >
-            <v-btn flat light @click.native="e2 = 1" :value="e2 === 1">
-              <span>Text</span>
-              <v-icon>subject</v-icon>
-            </v-btn>
-            <v-btn flat light @click.native="e2 = 2" :value="e2 === 2">
-              <span>Diagram</span>
-              <v-icon>insert_chart</v-icon>
-            </v-btn>
-          </v-bottom-nav>
-        </v-card>
-      </v-flex>
-    </v-layout>
+ <v-data-table
+    v-bind:headers="headers"
+    v-bind:items="items"
+    v-bind:search="search"
+    v-model="selected"
+    selected-key="name"
+    select-all
+    class="elevation-1"
+  >
+    <template slot="headers" scope="props">
+      <span v-tooltip:bottom="{ 'html': props.item.text }">
+        {{ props.item.text }}
+      </span>
+    </template>
+    <template slot="items" scope="props">
+      <td>
+        <v-checkbox
+          primary
+          hide-details
+          v-model="props.selected"
+        ></v-checkbox>
+      </td>
+      <td>{{ props.item.username }}</td>
+      <td class="text-xs-right">{{ props.item.date }}</td>
+      <td class="text-xs-right">{{ props.item.data }}</td>
+    </template>
+ </v-data-table>
 
   </v-container>
 </template>
@@ -45,10 +50,32 @@
   export default {
     data () {
       return {
-        picker: null,
-        active: null,
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus sapien dui, at sollicitudin felis pellentesque vel. Curabitur lobortis, nibh ut aliquam malesuada, ante nisi lobortis purus, sed egestas justo urna vitae risus. Nulla eleifend enim justo, id egestas neque pellentesque ac. Cras pellentesque aliquet est, eu interdum odio. Donec ultricies vel diam non vulputate.",
-         e2: 1
+        search: '',
+        selected: [],
+        headers: [
+          {
+            text: 'Username',
+            left: true,
+            sortable: false,
+            value: 'username'
+          },
+          { text: 'Date', value: 'date' },
+          { text: 'Data', value: 'data' },
+        ],
+        items: [
+          {
+            value: false,
+            username: 'sherlock',
+            date: '2017-04-04',
+            data: "DATA OBJECT"
+          },
+          {
+            value: false,
+            username: 'moriarty',
+            date: '2017-05-04',
+            data: "DATA OBJECT"
+          }
+        ]
       }
     }
   }
