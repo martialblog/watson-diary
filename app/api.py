@@ -124,14 +124,14 @@ def create_app():
         users = db.users
         user = users.find({"username": username})
 
-        if user:
+        if not user:
             flask.abort(409)
 
         # TODO: Validate request data
-        username = request.json['username']
-        password = request.json['password']
-        mail = request.json['mail']
-        feeds = request.json['feeds']
+        username = flask.request.json['username']
+        password = flask.request.json['password']
+        mail = flask.request.json['mail']
+        feeds = flask.request.json['feeds']
 
         new_user = { "username": username,
                      "mail": mail,

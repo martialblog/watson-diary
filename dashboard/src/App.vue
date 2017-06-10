@@ -81,6 +81,7 @@
   export default {
     data: () => ({
       drawer: true,
+      mini: false,
       items: [
         { icon: 'dashboard', text: 'Home', link: '/home' },
         {

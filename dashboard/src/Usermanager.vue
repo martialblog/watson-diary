@@ -2,7 +2,7 @@
   <v-container fluid>
     <h4>Users</h4>
     <v-list three-line>
-      <template v-for="item in items">
+      <template v-for="item in users">
         <v-subheader v-if="item.header" v-text="item.header"></v-subheader>
         <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider>
         <v-list-item v-else v-bind:key="item.title">
@@ -30,19 +30,19 @@
           </v-card-row>
           <v-card-row>
             <v-card-text>
-              <v-text-field label="Username" required></v-text-field>
-              <v-text-field label="Email" required></v-text-field>
-              <v-text-field label="Password" type="password" required></v-text-field>
+              <v-text-field label="Username" required v-model="newUser.username"></v-text-field>
+              <v-text-field label="Email" required v-model="newUser.mail"></v-text-field>
+              <v-text-field label="Password" type="password" required v-model="newUser.password"></v-text-field>
               <v-text-field v-for="feed in feeds"
                             name="input-1"
                             :label="feed.name"
-                            id="testing"
+                            id="feed.name"
                             ></v-text-field>
             </v-card-text>
           </v-card-row>
           <v-card-row actions>
             <v-btn class="blue--text darken-1" flat @click.native="dialog = false">Close</v-btn>
-            <v-btn class="blue--text darken-1" flat @click.native="dialog = false">Save</v-btn>
+            <v-btn class="blue--text darken-1" flat @click.native="create_user">Create</v-btn>
           </v-card-row>
         </v-card>
       </v-dialog>
@@ -56,19 +56,40 @@
     data () {
       return {
         dialog: false,
-        feeds: [
-          {name: "Twitter"},
-          {name: "Facebook"},
-          {name: "Mail"},
-        ],
-        items: [
-          { username: 'moriarty', mail: 'mori@arty.se', password: "secret", feeds: {Facebook: "mori1966"}},
-          { divider: true, inset: true },
-          { username: 'sherlock', mail: 'sher@locked.co.uk', password: "secret", feeds: {Twitter: "sherlock"}},
-          { divider: true, inset: true },
-          { username: 'hansgruber', mail: 'hans@gruber.de', password: "secret", feeds: {Twitter: "grüber", Mail: "hansi"}}
-        ]
+        feeds: [],
+        users: [],
+        newUser: {
+          username: '',
+          mail: '',
+          password: '',
+          feeds: {
+          }
+        }
       }
+    },
+    methods: {
+      create_user: function () {
+        this.dialog = false;
+        this.$http.post('http://localhost:5000/users/'  + this.newUser.username, {
+
+          username: this.newUser.username,
+          mail: this.newUser.mail,
+          password: this.newUser.password,
+          feeds: this.newUser.feeds
+
+        }).then(function(data){
+          console.log(data);
+        })
+      }
+    },
+    created () {
+      this.$http.get('http://localhost:5000/users').then(function(data){
+        this.users = data.body;
+      });
+      this.$http.get('http://localhost:5000/feeds').then(function(data){
+        this.feeds = data.body;
+      });
+
     }
   }
 </script>
