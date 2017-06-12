@@ -3,7 +3,7 @@
     <h4>Feeds</h4>
     <v-layout row wrap>
       <v-flex xs12 md6>
-        <v-subheader>Activated Feeds</v-subheader>
+        <v-subheader>Available Feeds</v-subheader>
         <v-card class="elevation-0">
           <v-card-text>
             <v-switch v-for="feed in feeds"
@@ -21,19 +21,12 @@
     </v-layout>
 
    <v-layout row wrap>
-     <v-flex xs6 class="text-xs-center">
+     <v-flex xs12 class="text-xs-right">
        <v-btn
          light
-         info
+         primary
          @click.native="true"
-         >Add</v-btn>
-     </v-flex>
-     <v-flex xs6 class="text-xs-center">
-       <v-btn
-         success
-         light
-         @click.native="true"
-         >Save</v-btn>
+         >Add Feed</v-btn>
      </v-flex>
    </v-layout>
 

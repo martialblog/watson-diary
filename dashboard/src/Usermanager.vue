@@ -20,9 +20,10 @@
       </template>
     </v-list>
 
-    <v-layout row justify-center>
+    <v-layout row>
+      <v-flex xs12 class="text-xs-right">
       <v-dialog v-model="dialog">
-        <v-btn primary light slot="activator">New User</v-btn>
+        <v-btn primary light slot="activator">Add User</v-btn>
         <v-card>
           <v-card-row>
             <v-card-title>User Profile</v-card-title>
@@ -47,6 +48,7 @@
           </v-card-row>
         </v-card>
       </v-dialog>
+      </v-flex>
     </v-layout>
 
   </v-container>
