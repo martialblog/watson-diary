@@ -59,7 +59,7 @@ def create_app():
 
         return json_util.dumps(feed)
 
-    @app.route('/feeds/<path:key>', methods=['POST'])
+    @app.route('/feeds/<path:key>', methods=['PUT'])
     def post_feed(key):
         """
         Post new feed
@@ -68,15 +68,13 @@ def create_app():
         feeds = db.feeds
         feed = feeds.find({"key": key})
 
-        if not feed:
-            flask.abort(409)
 
         # TODO: Validate request data
         key = flask.request.json['key']
         name = flask.request.json['name']
         active = flask.request.json['active']
         date_field = flask.request.json['date_field']
-        text_fiel = flask.request.json['text_field']
+        text_field = flask.request.json['text_field']
 
         new_feed = { "key": key,
                      "name": name,
@@ -84,7 +82,7 @@ def create_app():
                      "date_field": date_field,
                      "text_field": text_field}
 
-        feeds.insert_one(new_feed)
+        feeds.replace_one({"key": key}, new_feed, True)
 
         # TODO: Proper Return value
         return flask.jsonify({"result": []}, 201)
@@ -149,16 +147,12 @@ def create_app():
 
         return json_util.dumps(feeds)
 
-    @app.route('/users/<path:username>', methods=['POST'])
+    @app.route('/users/<path:username>', methods=['PUT'])
     def post_user(username):
         """
         Create a new user profile.
         """
         users = db.users
-        user = users.find({"username": username})
-
-        if not user:
-            flask.abort(409)
 
         # TODO: Validate request data
         username = flask.request.json['username']
@@ -171,7 +165,7 @@ def create_app():
                      "password": password,
                      "feeds": feeds}
 
-        users.insert_one(new_user)
+        users.replace_one({"username": username}, new_user, True)
 
         # TODO: Proper Return value
         return flask.jsonify({"result": []}, 201)
@@ -217,7 +211,7 @@ def create_app():
 
         return json_util.dumps(report)
 
-    @app.route('/reports/<path:username>/<path:date>', methods=['POST'])
+    @app.route('/reports/<path:username>/<path:date>', methods=['PUT'])
     def post_report(username, date):
         """
         Create a new report for a user
