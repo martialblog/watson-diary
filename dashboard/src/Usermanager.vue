@@ -22,13 +22,12 @@
 
     <v-layout row>
       <v-flex xs12 class="text-xs-right">
-        <v-dialog v-model="dialog">
+        <v-dialog v-model="dialog" scrollable width="600">
           <v-btn primary light slot="activator">Add User</v-btn>
           <v-card>
-            <v-card-row>
-              <v-card-title>New User</v-card-title>
-            </v-card-row>
-            <v-card-row>
+            <v-card-title>New User</v-card-title>
+            <v-divider></v-divider>
+            <v-card-row height="400px">
               <v-card-text>
                 <v-text-field label="Username" required v-model="newUser.username"></v-text-field>
                 <v-text-field label="Email" required v-model="newUser.mail"></v-text-field>

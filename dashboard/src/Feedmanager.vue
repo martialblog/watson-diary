@@ -22,7 +22,7 @@
 
    <v-layout row wrap>
      <v-flex xs12 class="text-xs-right">
-        <v-dialog v-model="dialog">
+        <v-dialog v-model="dialog" width="450">
           <v-btn primary light slot="activator">Add Feed</v-btn>
           <v-card>
             <v-card-row>
