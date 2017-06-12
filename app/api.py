@@ -90,7 +90,7 @@ def create_app():
         return flask.jsonify({"result": []}, 201)
 
     @app.route('/feeds/<path:key>', methods=['DELETE'])
-    def delete_user(key):
+    def delete_feed(key):
         """
         Delete a feed.
         """
@@ -248,7 +248,7 @@ def create_app():
         return flask.jsonify({"result": []}, 201)
 
     @app.route('/reports/<path:username>/<path:date>', methods=['DELETE'])
-    def delete_user(username, date):
+    def delete_report(username, date):
         """
         Delete a report
         """
