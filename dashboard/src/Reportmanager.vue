@@ -1,7 +1,17 @@
 <template>
   <v-container fluid>
     <h4>Reports</h4>
+
     <v-layout row wrap>
+      <v-flex xs12>
+        <v-alert warning dismissible v-model="noresults">
+          No results
+        </v-alert>
+      </v-flex>
+    </v-layout>
+
+      <v-layout row wrap>
+
       <v-flex xs4>
         <v-subheader>Search Reports for User</v-subheader>
      </v-flex>
@@ -61,6 +71,7 @@
   export default {
     data () {
       return {
+        noresults: false,
         searchfor: '',
         selected: [],
         headers: [
@@ -79,8 +90,14 @@
     methods: {
       get_reports: function (username) {
         this.$http.get('http://localhost:5000/reports/' + username).then(function(data){
-
+          this.noresults = false;
           this.items = [];
+
+          if (data.status == 204){
+            this.noresults = true;
+            return
+          }
+
           for (var report of data.body) {
             this.items.push(report);
           }
