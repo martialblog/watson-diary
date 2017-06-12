@@ -28,8 +28,12 @@ def create_app():
     #                          username=conf["watson"]["username"],
     #                          password=conf["watson"]["password"],
     #                          version=conf["watson"]["version"],
-    #                          db_connector="test"
+    #                          db_connector=db
     # )
+
+    #########
+    # Feeds #
+    #########
 
     @app.route('/feeds', methods=['GET'])
     def get_feeds():
@@ -55,6 +59,56 @@ def create_app():
 
         return json_util.dumps(feed)
 
+    @app.route('/feeds/<path:key>', methods=['POST'])
+    def post_feed(key):
+        """
+        Post new feed
+        """
+
+        feeds = db.feeds
+        feed = feeds.find({"key": key})
+
+        if not feed:
+            flask.abort(409)
+
+        # TODO: Validate request data
+        key = flask.request.json['key']
+        name = flask.request.json['name']
+        active = flask.request.json['active']
+        date_field = flask.request.json['date_field']
+        text_fiel = flask.request.json['text_field']
+
+        new_feed = { "key": key,
+                     "name": name,
+                     "active": active,
+                     "date_field": date_field,
+                     "text_field": text_field}
+
+        feeds.insert_one(new_feed)
+
+        # TODO: Proper Return value
+        return flask.jsonify({"result": []}, 201)
+
+    @app.route('/feeds/<path:key>', methods=['DELETE'])
+    def delete_user(key):
+        """
+        Delete a feed.
+        """
+        feeds = db.feeds
+        feed = feeds.find({"key": key})
+
+        if not feed:
+            flask.abort(404)
+
+        feeds.delete_one({"key": key})
+
+        # TODO: Proper Return value
+        return flask.jsonify({"result": []}, 200)
+
+    #########
+    # Users #
+    #########
+
     @app.route('/users', methods=['GET'])
     def get_users():
         """
@@ -78,27 +132,6 @@ def create_app():
         user = db.users.find({"username": username})
 
         return json_util.dumps(user)
-
-    @app.route('/reports/<path:username>/<path:date>', methods=['GET'])
-    def get_user_report_date(username, date):
-        """
-        Returns specified report for specified user.
-        """
-
-        report = db.reports.find({"username": username, "date": date})
-
-        return json_util.dumps(report)
-
-    @app.route('/reports/<path:username>', methods=['GET'])
-    @app.route('/users/<path:username>/reports', methods=['GET'])
-    def get_user_reports(username):
-        """
-        Returns all reports for specified user.
-        """
-
-        reports = db.reports.find({"username": username})
-
-        return json_util.dumps(reports)
 
     @app.route('/users/<path:username>/feeds', methods=['GET'])
     def get_feeds_for_user(username):
@@ -155,6 +188,77 @@ def create_app():
             flask.abort(404)
 
         users.delete_one({"username": username})
+
+        # TODO: Proper Return value
+        return flask.jsonify({"result": []}, 200)
+
+    ###########
+    # Reports #
+    ###########
+
+    @app.route('/reports/<path:username>', methods=['GET'])
+    @app.route('/users/<path:username>/reports', methods=['GET'])
+    def get_user_reports(username):
+        """
+        Returns all reports for specified user.
+        """
+
+        reports = db.reports.find({"username": username})
+
+        return json_util.dumps(reports)
+
+    @app.route('/reports/<path:username>/<path:date>', methods=['GET'])
+    def get_user_report_date(username, date):
+        """
+        Returns specified report for specified user.
+        """
+
+        report = db.reports.find({"username": username, "date": date})
+
+        return json_util.dumps(report)
+
+    @app.route('/reports/<path:username>/<path:date>', methods=['POST'])
+    def post_report(username, date):
+        """
+        Create a new report for a user
+        """
+
+        reports = db.reports
+        report = report.find({"username": username, "date": date})
+
+        if not report:
+            flask.abort(404)
+
+        # TODO: Call IBM Watson Connector
+        # Watson.create_report(username, date)
+
+        # For testing:
+        username = username
+        date = date
+        data = "TEST PAYLOAD"
+
+        new_report = { "username": username,
+                       "date": date,
+                       "data": data,
+        }
+
+        reports.insert_one(new_report)
+
+        # TODO: Proper Return value
+        return flask.jsonify({"result": []}, 201)
+
+    @app.route('/reports/<path:username>/<path:date>', methods=['DELETE'])
+    def delete_user(username, date):
+        """
+        Delete a report
+        """
+        reports = db.reports
+        report = report.find({"username": username, "date": date})
+
+        if not report:
+            flask.abort(404)
+
+        reports.delete_one({"username": username, "date": date})
 
         # TODO: Proper Return value
         return flask.jsonify({"result": []}, 200)
