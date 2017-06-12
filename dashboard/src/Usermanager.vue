@@ -5,7 +5,7 @@
       <template v-for="item in users">
         <v-subheader v-if="item.header" v-text="item.header"></v-subheader>
         <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider>
-        <v-list-item v-else v-bind:key="item.title">
+        <v-list-item v-else v-bind:key="item.username">
           <v-list-tile>
             <v-list-tile-content>
               <v-list-tile-title v-html="item.username"></v-list-tile-title>
@@ -33,7 +33,9 @@
               <v-text-field label="Email" required v-model="newUser.mail"></v-text-field>
               <v-text-field label="Password" type="password" required v-model="newUser.password"></v-text-field>
               <v-text-field v-for="feed in feeds"
-                            name="input-1"
+                            v-bind:key="feed.id"
+                            v-bind:data="feed.name"
+                            name="feed.name"
                             :label="feed.name"
                             id="feed.name"
                             ></v-text-field>
@@ -70,10 +72,18 @@
       delete_user: function (username) {
         this.$http.delete('http://localhost:5000/users/' + username).then(function(data){
           console.log(data);
+
+          var index = this.users.map(elem => elem.username).indexOf(username);
+
+          if (index > -1) {
+            this.users.splice(index, 1);
+          };
+
         })
       },
       create_user: function () {
         this.dialog = false;
+        this.users.push(this.newUser);
         this.$http.post('http://localhost:5000/users/' + this.newUser.username, {
 
           username: this.newUser.username,

@@ -9,6 +9,7 @@
             <v-switch v-for="feed in availableFeeds"
                       :label="feed.name"
                       v-model="activatedFeeds"
+                      v-bind:key="feed.id"
                       :value="feed.id"
                       success
                       dark
