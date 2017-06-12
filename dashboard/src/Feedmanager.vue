@@ -6,18 +6,37 @@
         <v-subheader>Activated Feeds</v-subheader>
         <v-card class="elevation-0">
           <v-card-text>
-            <v-switch v-for="feed in availableFeeds"
+            <v-switch v-for="feed in feeds"
                       :label="feed.name"
-                      v-model="activatedFeeds"
-                      v-bind:key="feed.id"
-                      :value="feed.id"
+                      v-model="feed.active"
+                      v-bind:key="feed.key"
+                      :value="feed.active"
                       success
                       dark
+                      @click.native="toggle_feed(feed.key)"
                       ></v-switch>
           </v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
+
+   <v-layout row wrap>
+     <v-flex xs6 class="text-xs-center">
+       <v-btn
+         light
+         info
+         @click.native="true"
+         >Add</v-btn>
+     </v-flex>
+     <v-flex xs6 class="text-xs-center">
+       <v-btn
+         success
+         light
+         @click.native="true"
+         >Save</v-btn>
+     </v-flex>
+   </v-layout>
+
 </v-container>
 </template>
 
@@ -25,15 +44,32 @@
   export default {
     data () {
       return {
-        availableFeeds: [
-          {name: "Twitter", id: "twitter"},
-          {name: "Facebook", id: "facebook"},
-          {name: "Instagram", id: "instagram"},
-          {name: "Mail", id: "mail"},
-          {name: "SMS", id: "sms"}
-        ],
-        activatedFeeds: [],
+        feeds: []
       }
+    },
+    methods: {
+      toggle_feed: function (k) {
+
+        var index = this.feeds.map(elem => elem.key).indexOf(k);
+
+        if (index > -1) {
+          this.$http.put('http://localhost:5000/feeds/' + k, {
+            key: k,
+            name: this.feeds[index].name,
+            active: Boolean(this.feeds[index].active),
+            date_field: "created_at",
+            text_field: "text"
+          }).then(function(data){
+            console.log(data);
+          })
+        }
+
+      }
+    },
+    created () {
+      this.$http.get('http://localhost:5000/feeds').then(function(data){
+        this.feeds = data.body;
+      });
     }
   }
 </script>

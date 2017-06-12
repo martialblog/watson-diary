@@ -103,7 +103,6 @@
       this.$http.get('http://localhost:5000/feeds').then(function(data){
         this.feeds = data.body;
       });
-
     }
   }
 </script>
