@@ -88,7 +88,7 @@
           icon: 'build',
           'icon-alt': 'keyboard_arrow_down',
           text: 'Admin',
-          model: true,
+          model: false,
           children: [
             { text: 'Users', link: '/usermanager'},
             { text: 'Reports', link: '/reportmanager'},
