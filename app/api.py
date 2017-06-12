@@ -84,7 +84,6 @@ def create_app():
 
         feeds.replace_one({"key": key}, new_feed, True)
 
-        # TODO: Proper Return value
         return flask.jsonify({"result": []}, 201)
 
     @app.route('/feeds/<path:key>', methods=['DELETE'])
@@ -100,8 +99,7 @@ def create_app():
 
         feeds.delete_one({"key": key})
 
-        # TODO: Proper Return value
-        return flask.jsonify({"result": []}, 200)
+        return flask.jsonify({}, 200)
 
     #########
     # Users #
@@ -119,7 +117,13 @@ def create_app():
         for s in users.find():
             output.append(s)
 
-        return json_util.dumps(output)
+        output = json_util.dumps(output)
+
+        status = 200
+        if output == "[]":
+            status = 204
+
+        return output, status
 
     @app.route('/users/<path:username>', methods=['GET'])
     def get_user(username):
@@ -128,8 +132,13 @@ def create_app():
         """
 
         user = db.users.find({"username": username})
+        user = json_util.dumps(user)
 
-        return json_util.dumps(user)
+        status = 200
+        if user == "[]":
+            status = 204
+
+        return user, status
 
     @app.route('/users/<path:username>/feeds', methods=['GET'])
     def get_feeds_for_user(username):
@@ -140,12 +149,17 @@ def create_app():
         user = db.users.find({"username": username})
         u = list(user)
 
+        # TODO: There's gotta be a better way
         try:
             feeds = u[0]["feeds"]
+            status = 200
         except IndexError as e:
             feeds = {}
+            status = 204
 
-        return json_util.dumps(feeds)
+        feeds = json_util.dumps(feeds)
+
+        return feeds, status
 
     @app.route('/users/<path:username>', methods=['PUT'])
     def post_user(username):
@@ -167,8 +181,7 @@ def create_app():
 
         users.replace_one({"username": username}, new_user, True)
 
-        # TODO: Proper Return value
-        return flask.jsonify({"result": []}, 201)
+        return flask.jsonify({}, 201)
 
     @app.route('/users/<path:username>', methods=['DELETE'])
     def delete_user(username):
@@ -183,8 +196,7 @@ def create_app():
 
         users.delete_one({"username": username})
 
-        # TODO: Proper Return value
-        return flask.jsonify({"result": []}, 200)
+        return flask.jsonify({}, 200)
 
     ###########
     # Reports #
@@ -198,8 +210,13 @@ def create_app():
         """
 
         reports = db.reports.find({"username": username})
+        reports = json_util.dumps(reports)
 
-        return json_util.dumps(reports)
+        status = 200
+        if reports == "[]":
+            status = 204
+
+        return reports, status
 
     @app.route('/reports/<path:username>/<path:date>', methods=['GET'])
     def get_user_report_date(username, date):
@@ -208,8 +225,13 @@ def create_app():
         """
 
         report = db.reports.find({"username": username, "date": date})
+        report = json_util.dumps(report)
 
-        return json_util.dumps(report)
+        status = 200
+        if report == "[]":
+            status = 204
+
+        return report, status
 
     @app.route('/reports/<path:username>/<path:date>', methods=['PUT'])
     def post_report(username, date):
@@ -254,7 +276,6 @@ def create_app():
 
         reports.delete_one({"username": username, "date": date})
 
-        # TODO: Proper Return value
-        return flask.jsonify({"result": []}, 200)
+        return flask.jsonify({}, 200)
 
     return app
