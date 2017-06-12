@@ -22,32 +22,32 @@
 
     <v-layout row>
       <v-flex xs12 class="text-xs-right">
-      <v-dialog v-model="dialog">
-        <v-btn primary light slot="activator">Add User</v-btn>
-        <v-card>
-          <v-card-row>
-            <v-card-title>User Profile</v-card-title>
-          </v-card-row>
-          <v-card-row>
-            <v-card-text>
-              <v-text-field label="Username" required v-model="newUser.username"></v-text-field>
-              <v-text-field label="Email" required v-model="newUser.mail"></v-text-field>
-              <v-text-field label="Password" type="password" required v-model="newUser.password"></v-text-field>
-              <v-text-field v-for="feed in feeds"
-                            v-bind:key="feed.id"
-                            v-bind:data="feed.name"
-                            name="feed.name"
-                            :label="feed.name"
-                            id="feed.name"
-                            ></v-text-field>
-            </v-card-text>
-          </v-card-row>
-          <v-card-row actions>
-            <v-btn class="blue--text darken-1" flat @click.native="dialog = false">Close</v-btn>
-            <v-btn class="blue--text darken-1" flat @click.native="create_user">Create</v-btn>
-          </v-card-row>
-        </v-card>
-      </v-dialog>
+        <v-dialog v-model="dialog">
+          <v-btn primary light slot="activator">Add User</v-btn>
+          <v-card>
+            <v-card-row>
+              <v-card-title>New User</v-card-title>
+            </v-card-row>
+            <v-card-row>
+              <v-card-text>
+                <v-text-field label="Username" required v-model="newUser.username"></v-text-field>
+                <v-text-field label="Email" required v-model="newUser.mail"></v-text-field>
+                <v-text-field label="Password" type="password" required v-model="newUser.password"></v-text-field>
+                <v-text-field v-for="feed in feeds"
+                              v-bind:key="feed.id"
+                              v-bind:data="feed.name"
+                              name="feed.name"
+                              :label="feed.name"
+                              id="feed.name"
+                              ></v-text-field>
+              </v-card-text>
+            </v-card-row>
+            <v-card-row actions>
+              <v-btn class="blue--text darken-1" flat @click.native="dialog = false">Close</v-btn>
+              <v-btn class="blue--text darken-1" flat @click.native="create_user">Create</v-btn>
+            </v-card-row>
+          </v-card>
+        </v-dialog>
       </v-flex>
     </v-layout>
 
@@ -86,7 +86,7 @@
       create_user: function () {
         this.dialog = false;
         this.users.push(this.newUser);
-        this.$http.post('http://localhost:5000/users/' + this.newUser.username, {
+        this.$http.put('http://localhost:5000/users/' + this.newUser.username, {
 
           username: this.newUser.username,
           mail: this.newUser.mail,
