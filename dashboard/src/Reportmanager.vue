@@ -99,22 +99,26 @@
           }
 
           for (var report of data.body) {
+            var d = JSON.stringify(report.data);
+            report.data = d.substring(0,100);
             this.items.push(report);
           }
         })
       },
       delete_reports: function() {
         for (var report of this.selected) {
-
           var index = this.items.map(elem => elem.date).indexOf(report.date);
 
           if (index > -1) {
             this.items.splice(index, 1);
           };
 
-        //   this.$http.delete('http://localhost:5000/reports/' + username + "/" + date).then(function(data){
-        //     console.log(name);
-        // });
+          var username = this.items[index].username;
+          var date = this.items[index].date;
+
+          this.$http.delete('http://localhost:5000/reports/' + username + "/" + date).then(function(data){
+            console.log(name);
+        });
         }
       }
     }

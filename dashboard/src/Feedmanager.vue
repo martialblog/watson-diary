@@ -32,6 +32,7 @@
               <v-card-text>
                 <v-text-field label="Name" required v-model="newFeed.name"></v-text-field>
                 <v-text-field label="Key" required v-model="newFeed.key"></v-text-field>
+                <v-text-field label="URL" required v-model="newFeed.url"></v-text-field>
                 <v-text-field label="Date Field" required v-model="newFeed.date_field"></v-text-field>
                 <v-text-field label="Text Field" required v-model="newFeed.text_field"></v-text-field>
               </v-card-text>
@@ -56,6 +57,7 @@
         feeds: [],
         newFeed: {
           key: '',
+          url: '',
           name: '',
           date_field: '',
           text_field: '',
@@ -70,11 +72,12 @@
 
         this.$http.put('http://localhost:5000/feeds/' + this.newFeed.key, {
 
-            key: this.newFeed.key,
-            name:  this.newFeed.name,
-            active:  this.newFeed.active,
-            date_field:  this.newFeed.date_field,
-            text_field:  this.newFeed.text_field
+          key: this.newFeed.key,
+          url: this.newFeed.url,
+          name:  this.newFeed.name,
+          active:  this.newFeed.active,
+          date_field:  this.newFeed.date_field,
+          text_field:  this.newFeed.text_field
 
         }).then(function(data){
           console.log(data);
