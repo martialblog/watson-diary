@@ -71,6 +71,7 @@ def create_app():
 
         # TODO: Validate request data
         key = flask.request.json['key']
+        url = flask.request.json['url']
         name = flask.request.json['name']
         active = flask.request.json['active']
         date_field = flask.request.json['date_field']
@@ -146,12 +147,10 @@ def create_app():
         Returns all feeds for specified user.
         """
 
-        user = db.users.find({"username": username})
-        u = list(user)
+        user = db.users.find_one({"username": username})
 
-        # TODO: There's gotta be a better way
         try:
-            feeds = u[0]["feeds"]
+            feeds = user["feeds"]
             status = 200
         except IndexError as e:
             feeds = {}
@@ -240,28 +239,14 @@ def create_app():
         """
 
         reports = db.reports
-        report = report.find({"username": username, "date": date})
+        report = reports.find({"username": username, "date": date})
 
         if not report:
             flask.abort(404)
 
-        # TODO: Call IBM Watson Connector
-        # Watson.create_report(username, date)
+        Watson.analyse_tone(username, date)
 
-        # For testing:
-        username = username
-        date = date
-        data = "TEST PAYLOAD"
-
-        new_report = { "username": username,
-                       "date": date,
-                       "data": data,
-        }
-
-        reports.insert_one(new_report)
-
-        # TODO: Proper Return value
-        return flask.jsonify({"result": []}, 201)
+        return flask.jsonify({}, 201)
 
     @app.route('/reports/<path:username>/<path:date>', methods=['DELETE'])
     def delete_report(username, date):
@@ -269,7 +254,7 @@ def create_app():
         Delete a report
         """
         reports = db.reports
-        report = report.find({"username": username, "date": date})
+        report = reports.find({"username": username, "date": date})
 
         if not report:
             flask.abort(404)

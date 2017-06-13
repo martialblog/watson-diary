@@ -2,7 +2,6 @@
 
 
 from datetime import datetime
-import json
 import requests
 
 
@@ -33,11 +32,11 @@ class ApiAggregator():
         Loads the entry API data. Returns JSON object.
         """
 
-        resp = requests.get(self.url)
-
-        if not resp.status_code == 200:
+        try:
+            resp = requests.get(self.url)
+        except Exception:
             print("Error Calling API")
-            return
+            return {}
 
         return resp.json()
 
@@ -54,14 +53,14 @@ class ApiAggregator():
             date = str(date_obj.date())
 
             if date in self.data:
-                self.data[date] = self.data[date] + " - " + entry[self.text_field]
+                self.data[date] = self.data[date] + ". " + entry[self.text_field]
             else:
                 self.data[date] = entry[self.text_field]
 
 
-    def get_for_date(self, date):
+    def aggregate_date(self, date):
         """
-        Returns the aggregated data for a specific date as JSON.
+        Returns the aggregated data for a specific date.
         If no data is available an empty object is returned.
 
         params: date - date as string (format: YYYY-MM-DD)
@@ -70,6 +69,11 @@ class ApiAggregator():
         try:
             resp = self.data[date]
         except KeyError as e:
-            resp = {}
+            resp = None
         finally:
             return resp
+
+
+# aggr = ApiAggregator("http://localhost:3000/api/twytta/realsherlock",
+#                      "created_at",
+#                      "text")
