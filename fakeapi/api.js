@@ -43,7 +43,7 @@ app.get('/api/twytta/:username', function (req, res) {
 app.get('/api/instapic/:username', function (req, res) {
 
   username = req.params.username;
-  data = getJsonFiles('texts/instagram' + username);
+  data = getJsonFiles('texts/instagram/' + username);
   res.send(data);
 
 });
@@ -51,7 +51,7 @@ app.get('/api/instapic/:username', function (req, res) {
 app.get('/api/friendface/:username', function (req, res) {
 
   username = req.params.username;
-  data = getJsonFiles('texts/facebook' + username);
+  data = getJsonFiles('texts/facebook/' + username);
   res.send(data);
 
 });
@@ -59,7 +59,7 @@ app.get('/api/friendface/:username', function (req, res) {
 app.get('/api/mail/:username', function (req, res) {
 
   username = req.params.username;
-  data = getJsonFiles('texts/mail' + username);
+  data = getJsonFiles('texts/mail/' + username);
   res.send(data);
 
 });
@@ -67,7 +67,7 @@ app.get('/api/mail/:username', function (req, res) {
 app.get('/api/sms/:username', function (req, res) {
 
   username = req.params.username;
-  data = getJsonFiles('texts/sms' + username);
+  data = getJsonFiles('texts/sms/' + username);
   res.send(data);
 
 });
@@ -75,7 +75,7 @@ app.get('/api/sms/:username', function (req, res) {
 app.get('/api/notes/:username', function (req, res) {
 
   username = req.params.username;
-  data = getJsonFiles('texts/notes' + username);
+  data = getJsonFiles('texts/notes/' + username);
   res.send(data);
 
 });
