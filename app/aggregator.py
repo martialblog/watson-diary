@@ -19,10 +19,12 @@ class ApiAggregator():
 
     """
 
-    def __init__(self, url, datefield):
+    def __init__(self, url, date_field, text_field, date_format='%a %b %d %H:%M:%S %Y'):
 
         self.url = url
-        self.datefield = datefield
+        self.date_format = date_format
+        self.date_field = date_field
+        self.text_field = text_field
         self.data = {}
         self._initialize_data()
 
@@ -48,13 +50,13 @@ class ApiAggregator():
         """
 
         for entry in self._load_api():
-            date_obj = datetime.strptime(entry[self.datefield], '%a %b %d %H:%M:%S %Y')
+            date_obj = datetime.strptime(entry[self.date_field], self.date_format)
             date = str(date_obj.date())
 
             if date in self.data:
-                self.data[date] = self.data[date] + " - " + entry['text']
+                self.data[date] = self.data[date] + " - " + entry[self.text_field]
             else:
-                self.data[date] = entry['text']
+                self.data[date] = entry[self.text_field]
 
 
     def get_for_date(self, date):
