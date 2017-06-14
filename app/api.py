@@ -68,7 +68,6 @@ def create_app():
         feeds = db.feeds
         feed = feeds.find({"key": key})
 
-
         # TODO: Validate request data
         key = flask.request.json['key']
         url = flask.request.json['url']
@@ -78,6 +77,7 @@ def create_app():
         text_field = flask.request.json['text_field']
 
         new_feed = { "key": key,
+                     "url": url,
                      "name": name,
                      "active": active,
                      "date_field": date_field,

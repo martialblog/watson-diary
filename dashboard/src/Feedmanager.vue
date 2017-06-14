@@ -92,6 +92,7 @@
           this.$http.put('http://localhost:5000/feeds/' + k, {
 
             key: k,
+            url: this.feeds[index].url,
             name: this.feeds[index].name,
             active: Boolean(this.feeds[index].active),
             date_field: "created_at",
