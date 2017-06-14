@@ -1,8 +1,8 @@
-# dashboard
+# Dr. Watson Frontend
 
-Dr. Watson Dashboard
+The Dr. Watson Dashboard is a Vue.js Application to communicate with the Backend.
 
-## Build Setup
+## Usage
 
 ``` bash
 # install dependencies

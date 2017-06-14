@@ -1,0 +1,16 @@
+version: "2"
+services:
+  watson_database:
+    image: mongo:latest
+    container_name: watson_database
+    ports:
+      - "27017:27017"
+  watson_backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: watson_backend
+    ports:
+      - "5000:5000"
+    links:
+      - watson_database

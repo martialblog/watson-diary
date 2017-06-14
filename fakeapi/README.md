@@ -12,6 +12,22 @@ Provides some API with user data.
 
 # Usage
 
+## Node
+
+To start the APIs use node to install the dependencies:
+
+```bash
+npm install
+```
+
+Then start the API:
+
+```bash
+npm start
+```
+
+## Docker
+
 It's best to start the API via Docker (docker-compose)
 
 ```bash
