@@ -85,6 +85,16 @@
       items: [
         { icon: 'dashboard', text: 'Home', link: '/home' },
         {
+          icon: 'account_circle',
+          'icon-alt': 'keyboard_arrow_down',
+          text: 'Profile' ,
+          model: false,
+          children: [
+            { text: 'Diary', link: '/diary' },
+            { text: 'Manage Profile', link: '/profilemanager' },
+          ]
+        },
+        {
           icon: 'build',
           'icon-alt': 'keyboard_arrow_down',
           text: 'Admin',
@@ -94,17 +104,6 @@
             { text: 'Reports', link: '/reportmanager'},
             { text: 'Feeds', link: '/feedmanager'},
 
-          ]
-        },
-        {
-          icon: 'account_circle',
-          'icon-alt': 'keyboard_arrow_down',
-          text: 'Profile' ,
-          model: false,
-          children: [
-            { text: 'Diary', link: '/diary' },
-            { text: 'Manage Diary', link: '/diarymanager' },
-            { text: 'Manage Profile', link: '/profilemanager' },
           ]
         },
         { icon: 'help', text: 'Help', link: '/help' },

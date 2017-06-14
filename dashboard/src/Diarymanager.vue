@@ -1,10 +1,9 @@
 <template>
   <v-container fluid>
-    <v-card>
-      <v-card-text class="purple darken-1 white--text mt-3">
-        <div>{{ title }}</div>
-      </v-card-text>
-    </v-card>
+    <h4>Diary Management</h4>
+
+    <p>TODO</p>
+    <p>list all entries?</p>
   </v-container>
 </template>
 

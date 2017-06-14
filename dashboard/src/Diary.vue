@@ -26,13 +26,15 @@
             </template>
           </v-date-picker>
         </v-menu>
+      <!-- </v-flex> -->
+      <!--  <v-flex xs6 class="text-md-center"> -->
+      <!--    <v-btn dark default class="btn--dark-flat-focused"><v-icon left dark>import_contacts</v-icon>Diary</v-btn> -->
+      <!--  </v-flex> -->
+      <!--  <v-flex xs6 class="text-md-center"> -->
+      <!--    <v-btn dark default class="btn--dark-flat-focused"><v-icon left dark>insert_chart</v-icon>Stats</v-btn> -->
+      <!--  </v-flex> -->
       </v-flex>
-       <v-flex xs6 class="text-md-center">
-         <v-btn dark default class="btn--dark-flat-focused"><v-icon left dark>import_contacts</v-icon>Diary</v-btn>
-       </v-flex>
-       <v-flex xs6 class="text-md-center">
-         <v-btn dark default class="btn--dark-flat-focused"><v-icon left dark>insert_chart</v-icon>Stats</v-btn>
-       </v-flex>
+
       <v-flex xs12>
         <v-card class="mt-3">
           <v-card-text>{{text}}</v-card-text>
@@ -67,24 +69,24 @@ export default {
     function exampleData() {
       return  [
         {
-          "label": "One",
+          "label": "Anger",
           "value" : 29.765957771107
         } ,
         {
-          "label": "Two",
-          "value" : 0
+          "label": "Disgust",
+          "value" : 50.0
         } ,
         {
-          "label": "Three",
+          "label": "Fear",
           "value" : 32.807804682612
         } ,
         {
-          "label": "Four",
-          "value" : 196.45946739256
+          "label": "Joy",
+          "value" : 96.45946739256
         } ,
         {
-          "label": "Five",
-          "value" : 0.19434030906893
+          "label": "Sadness",
+          "value" : 50.19434030906893
         } ]}
 
     nv.addGraph(function() {
