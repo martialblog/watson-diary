@@ -52,7 +52,7 @@
           console.log(data);
         })
       }
-    }
+    },
     created () {
       this.$http.get('http://localhost:5000/users/sherlock').then(function(data){
 

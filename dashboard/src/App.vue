@@ -69,7 +69,11 @@
 
     <v-toolbar class="blue accent-4" light>
       <v-toolbar-side-icon light @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Dr. Watson Dashboard</v-toolbar-title>
+      <v-toolbar-items>
+        <v-toolbar-item v-for="link in links" :key="link">
+          <router-link :to="link.link" style="color:#fff; text-decoration: none;">{{link.text}}</router-link>
+        </v-toolbar-item>
+      </v-toolbar-items>
     </v-toolbar>
     <main>
       <router-view></router-view>
@@ -80,8 +84,12 @@
 <script>
   export default {
     data: () => ({
-      drawer: true,
+      drawer: false,
       mini: false,
+      links: [
+        { text: 'Login', link: '/login' },
+        { text: 'Register', link: '/register' },
+      ],
       items: [
         { icon: 'dashboard', text: 'Home', link: '/home' },
         {

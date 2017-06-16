@@ -1,18 +1,25 @@
 <template>
-  <v-container fluid>
-    <v-card>
-      <v-card-text class="mt-3">
-        <div>{{ text }}</div>
-      </v-card-text>
-    </v-card>
-  </v-container>
+  <div>
+    <v-parallax src="/public/hero_bg.png">
+      <v-layout column align-center justify-center>
+        <v-flex xs12>
+          <h1 class="white--text">{{headline}}</h1>
+          <h4 class="white--text">{{subheader}}</h4>
+        </v-flex>
+        <v-flex xs12 class="text-xs-center mt-2" style="width:700px;">
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget efficitur massa. Ut aliquet sodales nibh quis consectetur. Fusce in sollicitudin neque. Maecenas sagittis purus turpis, nec dapibus elit congue non. Praesent volutpat neque ut magna luctus vehicula. Proin dignissim lorem et finibus malesuada. Sed justo sapien, volutpat sed sagittis sollicitudin, ultrices eget nibh. Aenean quam ante, lobortis et faucibus ut, sagittis eu turpis. Integer efficitur, lectus sed maximus consectetur, magna ante blandit mi, sit amet sodales ante ipsum quis nisi. Vivamus tincidunt leo eu pretium ultricies. Nunc lobortis dui est, ac ullamcorper eros iaculis quis.</p>
+        </v-flex>
+      </v-layout>
+    </v-parallax>
+  </div>
 </template>
 
 <script>
   export default {
     data () {
       return {
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus sapien dui, at sollicitudin felis pellentesque vel. Curabitur lobortis, nibh ut aliquam malesuada, ante nisi lobortis purus, sed egestas justo urna vitae risus. Nulla eleifend enim justo, id egestas neque pellentesque ac. Cras pellentesque aliquet est, eu interdum odio. Donec ultricies vel diam non vulputate. Sed justo metus, interdum ut enim ut, pharetra viverra nulla. Aenean sed orci diam. Vivamus et arcu luctus, lacinia nulla nec, consequat arcu. Integer convallis ex justo, vel elementum purus elementum a. Suspendisse varius ipsum eget mi blandit, vitae efficitur ligula efficitur. Proin ante nibh, dictum non nulla quis, hendrerit tincidunt lectus. Vestibulum porta justo elit, at luctus ex tempus quis.",
+        headline: "Dr. Watson",
+        subheader: "Lorem ipsum dolor sit amet",
       }
     }
   }
