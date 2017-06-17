@@ -1,29 +1,65 @@
 <template>
   <v-container fluid>
-    <h4>{{username}} </h4>
+    <h4>{{username}}</h4>
+
+    <transition name="fade">
+      <v-alert success v-bind:value="visible">
+        Saved
+      </v-alert>
+    </transition>
+
+    <v-card>
+      <v-card-row>
+        <v-card-text>
+          <v-text-field label="Email" required v-model="mail"></v-text-field>
+          <v-text-field label="Password" type="password" required v-model="password"></v-text-field>
+          <v-text-field v-for="feed in feeds"
+                        v-bind:key="feed.key"
+                        v-bind:data="feed.username"
+                        name="feed.key"
+                        :value="feed.username"
+                        :label="feed.key"
+                        id="feed.key"
+                        ></v-text-field>
+        </v-card-text>
+      </v-card-row>
+    </v-card>
+
+    <v-layout row wrap>
+      <v-flex xs12 class="text-xs-right">
+
+        <v-dialog v-model="dialog">
+          <v-btn primary light slot="activator">Add Feed</v-btn>
           <v-card>
-            <v-card-row>
+            <v-card-title>New Feed</v-card-title>
+            <v-divider></v-divider>
+            <v-card-row height="200px">
               <v-card-text>
-                <v-text-field label="Email" required v-model="mail"></v-text-field>
-                <v-text-field label="Password" type="password" required v-model="password"></v-text-field>
-                <v-text-field v-for="feed in feeds"
-                              v-bind:key="feed.id"
-                              v-bind:data="feed.name"
-                              name="feed.name"
-                              :label="feed.name"
-                              id="feed.name"
-                              ></v-text-field>
+
+                <v-select
+                  v-bind:items="availableFeeds"
+                  v-model="newFeed.key"
+                  label="Feed"
+                  dark
+                  single-line
+                  auto
+                  ></v-select>
+
+                <v-text-field label="Username" required v-model="newFeed.username"></v-text-field>
               </v-card-text>
             </v-card-row>
+            <v-card-row actions>
+              <v-btn class="blue--text darken-1" flat @click.native="dialog = false">Close</v-btn>
+              <v-btn class="blue--text darken-1" flat @click.native="add_feed">Add</v-btn>
+            </v-card-row>
           </v-card>
+        </v-dialog>
 
-          <v-layout row wrap>
-            <v-flex xs12 class="text-xs-right">
-              <v-btn info
-                     light
-                     @click.native="update_user"
-                     >Save</v-btn>
-            </v-flex>
+        <v-btn success
+               light
+               @click.native="update_user"
+               >Save</v-btn>
+      </v-flex>
     </v-layout>
 
   </v-container>
@@ -33,10 +69,17 @@
   export default {
     data () {
       return {
+        visible: false,
+        availableFeeds: [],
+        dialog: false,
+        newFeed: {
+          key: "",
+          username: ""
+        },
         username: "",
         mail: "",
         password: "",
-        feeds: {}
+        feeds: []
       }
     },
     methods: {
@@ -51,9 +94,26 @@
         }).then(function(data){
           console.log(data);
         })
-      }
+
+        this.visible = true;
+      },
+      add_feed: function (){
+        this.dialog = false;
+        this.feeds.push({key: this.newFeed.key.text, username: this.newFeed.username});
+      },
+      fade_out: function() {
+        setTimeout(() => (
+          this.visible = false
+        ), 2500);
+      },
     },
     created () {
+
+      this.$http.get('http://localhost:5000/feeds').then(function(data){
+        for (var value of data.body){
+          this.availableFeeds.push({text: value.key});
+        }
+      });
 
       var username = this.$route.params.username;
       this.$http.get('http://localhost:5000/users/' + username).then(function(data){
@@ -65,6 +125,9 @@
         this.feeds = user.feeds;
 
       });
+    },
+    watch: {
+      visible: 'fade_out',
     }
   }
 </script>
