@@ -9,6 +9,7 @@ import os
 import pymongo
 import utils
 
+import watson as w
 
 def create_app():
     """
@@ -24,12 +25,12 @@ def create_app():
     mongo = pymongo.MongoClient("localhost", 27017)
     db = mongo.drwatson
 
-    # Watson = WatsonConnector(url=conf["watson"]["url"],
-    #                          username=conf["watson"]["username"],
-    #                          password=conf["watson"]["password"],
-    #                          version=conf["watson"]["version"],
-    #                          db_connector=db
-    # )
+    Watson = w.WatsonConnector(url=conf["watson"]["url"],
+                             username=conf["watson"]["username"],
+                             password=conf["watson"]["password"],
+                             version=conf["watson"]["version"],
+                             db_connector=db
+    )
 
     #########
     # Feeds #
@@ -244,7 +245,7 @@ def create_app():
         if not report:
             flask.abort(404)
 
-        Watson.analyse_tone(username, date)
+        Watson.analyze_tone(username, date)
 
         return flask.jsonify({}, 201)
 
@@ -260,6 +261,23 @@ def create_app():
             flask.abort(404)
 
         reports.delete_one({"username": username, "date": date})
+
+        return flask.jsonify({}, 200)
+
+    #############
+    # Functions #
+    #############
+
+    @app.route('/functions/generate/reports/<path:username>', methods=['GET'])
+    def generate_all_reports(username):
+        """
+        Generate all reports for specified user.
+        """
+
+        dates = Watson.dates(username)
+
+        for date in dates:
+            Watson.analyze_tone(username, date)
 
         return flask.jsonify({}, 200)
 

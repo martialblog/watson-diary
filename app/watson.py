@@ -6,6 +6,8 @@ import watson_developer_cloud as wdc
 
 from aggregator import ApiAggregator
 
+# TODO This class is shit... I know.
+# TODO All this Feed Stuff should really be in another class
 
 class WatsonConnector():
     """
@@ -46,23 +48,39 @@ class WatsonConnector():
         finally:
             return feeds
 
+    def _initialize_aggregators(self, username):
+
+        aggregators = []
+        texts = []
+        feeds = self._get_feeds(username)
+
+        for userfeed in feeds:
+            feed = self.db.feeds.find_one({"key": userfeed['key']})
+            aggr = ApiAggregator(feed["url"] + userfeed['username'],
+                                 feed["date_field"],
+                                 feed["text_field"])
+
+            aggregators.append(aggr)
+
+        return aggregators
+
+    def dates(self, username):
+
+        dates = []
+        aggregators = self._initialize_aggregators(username)
+
+        for aggregator in aggregators:
+            dates += aggregator.get_dates()
+
+        return dates
+
     def analyze_tone(self, username, date):
         """
         Returns the Tone Analyzer Data for a specific user and date.
         """
 
-        # TODO: Clean up this messy function
-        aggregators = []
         texts = []
-        feeds = self._get_feeds(username)
-
-        for key, userid in feeds.items():
-            feed = db.feeds.find_one({"key": key})
-            aggr = ApiAggregator(feed["url"] + userid,
-                                 feed["date_field"],
-                                 feed["text_field"])
-
-            aggregators.append(aggr)
+        aggregators = self._initialize_aggregators(username)
 
         for aggregator in aggregators:
 

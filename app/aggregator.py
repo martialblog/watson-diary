@@ -58,6 +58,10 @@ class ApiAggregator():
                 self.data[date] = entry[self.text_field]
 
 
+    def get_dates(self):
+
+        return self.data.keys()
+
     def aggregate_date(self, date):
         """
         Returns the aggregated data for a specific date.
