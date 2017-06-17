@@ -67,7 +67,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar class="blue accent-4" light>
+    <v-toolbar class="blue accent-3" light>
       <v-toolbar-side-icon light @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-items>
         <v-toolbar-item v-for="link in links" :key="link">
@@ -84,14 +84,15 @@
 <script>
   export default {
     data: () => ({
+      admin: true,
       drawer: false,
       mini: false,
       links: [
-        { text: 'Login', link: '/login' },
-        { text: 'Register', link: '/register' },
+        { text: 'Login', link: '/' },
+        { text: 'Register', link: '/' },
       ],
       items: [
-        { icon: 'dashboard', text: 'Home', link: '/home' },
+        { icon: 'dashboard', text: 'Home', link: '/' },
         {
           icon: 'account_circle',
           'icon-alt': 'keyboard_arrow_down',
@@ -108,9 +109,9 @@
           text: 'Admin',
           model: false,
           children: [
-            { text: 'Users', link: '/usermanager'},
-            { text: 'Reports', link: '/reportmanager'},
-            { text: 'Feeds', link: '/feedmanager'},
+            { text: 'Users', link: '/admin/usermanager'},
+            { text: 'Reports', link: '/admin/reportmanager'},
+            { text: 'Feeds', link: '/admin/feedmanager'},
 
           ]
         },

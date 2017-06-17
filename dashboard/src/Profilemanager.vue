@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <h4>{{username}}</h4>
+    <h4>{{username}} </h4>
           <v-card>
             <v-card-row>
               <v-card-text>
@@ -54,7 +54,9 @@
       }
     },
     created () {
-      this.$http.get('http://localhost:5000/users/sherlock').then(function(data){
+
+      var username = this.$route.params.username;
+      this.$http.get('http://localhost:5000/users/' + username).then(function(data){
 
         var user = data.body[0];
         this.username = user.username;

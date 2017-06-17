@@ -6,7 +6,7 @@
         <v-subheader v-if="item.header" v-text="item.header"></v-subheader>
         <v-divider v-else-if="item.divider" v-bind:inset="item.inset"></v-divider>
         <v-list-item v-else v-bind:key="item.username">
-          <v-list-tile>
+          <v-list-tile router :to="profile(item.username)">
             <v-list-tile-content>
               <v-list-tile-title v-html="item.username"></v-list-tile-title>
               <v-list-tile-sub-title v-html="item.mail"></v-list-tile-sub-title>
@@ -70,6 +70,9 @@
       }
     },
     methods: {
+      profile: function (username){
+        return "/profilemanager/" + username;
+      },
       delete_user: function (username) {
         this.$http.delete('http://localhost:5000/users/' + username).then(function(data){
           console.log(data);
