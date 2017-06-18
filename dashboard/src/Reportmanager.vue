@@ -3,10 +3,13 @@
     <h4>Reports</h4>
 
     <v-layout row wrap>
+
       <v-flex xs12>
-        <v-alert warning dismissible v-model="noresults">
+        <transition name="fade">
+        <v-alert warning dismissible v-model="visible">
           No results
         </v-alert>
+        </transition>
       </v-flex>
     </v-layout>
 
@@ -71,7 +74,7 @@
   export default {
     data () {
       return {
-        noresults: false,
+        visible: false,
         searchfor: '',
         selected: [],
         headers: [
@@ -90,11 +93,11 @@
     methods: {
       get_reports: function (username) {
         this.$http.get('http://localhost:5000/reports/' + username).then(function(data){
-          this.noresults = false;
+          this.visible = false;
           this.items = [];
 
           if (data.status == 204){
-            this.noresults = true;
+            this.visible = true;
             return
           }
 
@@ -120,8 +123,18 @@
             console.log(name);
         });
         }
-      }
+      },
+      fade_out: function() {
+        setTimeout(() => (
+          this.visible = false
+        ), 1500);
+      },
+
+    },
+    watch: {
+      visible: 'fade_out',
     }
+
   }
 </script>
 
