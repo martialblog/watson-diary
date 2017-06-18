@@ -50,7 +50,7 @@
         </td>
         <td>{{ props.item.username }}</td>
         <td class="text-xs-right">{{ props.item.date }}</td>
-        <td class="text-xs-right">{{ props.item.data }}</td>
+        <td class="text-xs-right">{{ props.item.reports }}</td>
       </template>
     </v-data-table>
 
@@ -82,7 +82,7 @@
             value: 'username'
           },
           { text: 'Date', value: 'date' },
-          { text: 'Data', value: 'data' },
+          { text: 'Data', value: 'reports' },
         ],
         items: []
       }
@@ -99,8 +99,8 @@
           }
 
           for (var report of data.body) {
-            var d = JSON.stringify(report.data);
-            report.data = d.substring(0,100);
+            var d = JSON.stringify(report.reports);
+            report.reports = d.substring(0,100);
             this.items.push(report);
           }
         })
