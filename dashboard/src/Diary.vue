@@ -23,10 +23,10 @@
             scrollable
             actions
             :allowed-dates="availableDates">
-            <template scope="{ save, cancel }">
+            <template scope="{cancel}">
               <v-card-row actions>
-                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
-                <v-btn flat primary @click.native="save()">Save</v-btn>
+                <v-btn flat primary @click.native="cancel">Cancel</v-btn>
+                <v-btn flat primary @click.native="save_date">Save</v-btn>
               </v-card-row>
             </template>
           </v-date-picker>
@@ -60,6 +60,7 @@ export default {
       menu: false,
       date: null,
       availableDates: [],
+      reportD3Data: [],
       text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu dapibus mi. In et auctor velit, nec pretium massa. Nunc rutrum metus tincidunt efficitur accumsan. Proin ut turpis at mauris accumsan ullamcorper vel vitae quam. Sed nunc augue, rutrum vitae tincidunt ut, congue porttitor quam. Donec semper, purus at sagittis tincidunt, ex tellus ullamcorper mi, a consequat libero risus id metus. Nam justo justo, tincidunt in congue ut, tristique ut quam. Donec vitae rutrum risus, in convallis tortor. Nam scelerisque gravida gravida. Maecenas nec massa in purus finibus dignissim. Proin finibus, odio id vehicula condimentum, neque velit rhoncus lorem, nec facilisis magna massa et nisi. Nulla posuere tristique ante, vehicula convallis ipsum egestas id. Mauris at fringilla lectus, vel sollicitudin sapien. Vivamus semper sodales ligula, laoreet egestas dolor mollis non. Morbi tincidunt augue odio, a molestie massa aliquet molestie.',
     }
   },
@@ -73,14 +74,22 @@ export default {
     });
   },
   methods: {
-    save: function () {
-      console.log(this.date);
-      // TODO: API Call. Get report for date
+    save_date: function () {
+      var emotions = null;
+      this.$http.get('http://localhost:5000/reports/sherlock/' + this.date).then(function(data){
+        for (var value of data.body){
+          emotions = value.reports[0].ta.document_tone.tone_categories[0].tones;
+        }
+        for (var emotion of emotions){
+          this.reportD3Data.push({label: emotion.tone_name, value: emotion.score});
+        }
+      });
+      console.log(this.reportD3Data);
     }
   },
   mounted() {
 
-    function exampleData() {
+    function reportData() {
       return  [
         {
           "label": "Anger",
@@ -116,7 +125,7 @@ export default {
       ;
 
       d3.select("svg")
-        .datum(exampleData())
+        .datum(reportData())
         .transition().duration(350)
         .call(chart);
 
