@@ -48,7 +48,7 @@ class WatsonConnector():
         finally:
             return feeds
 
-    def _initialize_aggregators(self, username):
+    def _get_aggregators(self, username):
 
         aggregators = []
         texts = []
@@ -67,22 +67,22 @@ class WatsonConnector():
     def dates(self, username):
 
         dates = []
-        aggregators = self._initialize_aggregators(username)
 
-        for aggregator in aggregators:
+        for aggregator in self._get_aggregators(username):
             dates += aggregator.get_dates()
 
         return dates
 
-    def analyze_tone(self, username, date):
+    def ta_report(self, username, date):
         """
         Returns the Tone Analyzer Data for a specific user and date.
+
+        Returns the ID of the new database entry.
         """
 
         texts = []
-        aggregators = self._initialize_aggregators(username)
 
-        for aggregator in aggregators:
+        for aggregator in self._get_aggregators(username):
 
             text = aggregator.aggregate_date(date)
             if text:
@@ -94,13 +94,13 @@ class WatsonConnector():
         text = ". ".join(texts)
 
         # Real Call
-        # payload = self.tone_analyzer.tone(text=text_aggregation)
-        # Fake Call
-        payload = self.mock_watson_ta(texts)
+        #payload = self.tone_analyzer.tone(text=text)
+        # Fake Call, since we only have limited access to IBM
+        payload = self.mock_watson_ta(text)
 
         new_report = { "username": username,
                        "date": date,
-                       "data": payload,
+                       "reports": [{"ta": payload}],
         }
 
         new_id = self.db.reports.replace_one(

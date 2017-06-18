@@ -59,6 +59,9 @@ class ApiAggregator():
 
 
     def get_dates(self):
+        """
+        Returns list of all available dates
+        """
 
         return self.data.keys()
 
@@ -76,8 +79,3 @@ class ApiAggregator():
             resp = None
         finally:
             return resp
-
-
-# aggr = ApiAggregator("http://localhost:3000/api/twytta/realsherlock",
-#                      "created_at",
-#                      "text")

@@ -245,7 +245,7 @@ def create_app():
         if not report:
             flask.abort(404)
 
-        Watson.analyze_tone(username, date)
+        Watson.ta_report(username, date)
 
         return flask.jsonify({}, 201)
 
@@ -277,7 +277,7 @@ def create_app():
         dates = Watson.dates(username)
 
         for date in dates:
-            Watson.analyze_tone(username, date)
+            Watson.ta_report(username, date)
 
         return flask.jsonify({}, 200)
 
