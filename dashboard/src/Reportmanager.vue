@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
+
     <h4>Reports</h4>
 
     <v-layout row wrap>
-
       <v-flex xs12>
         <transition name="fade">
         <v-alert warning dismissible v-model="visible">
@@ -13,11 +13,10 @@
       </v-flex>
     </v-layout>
 
-      <v-layout row wrap>
-
+    <v-layout row wrap>
       <v-flex xs4>
         <v-subheader>Search Reports for User</v-subheader>
-     </v-flex>
+      </v-flex>
       <v-flex xs12 sm5>
         <v-text-field
           prepend-icon="search"
@@ -129,12 +128,10 @@
           this.visible = false
         ), 1500);
       },
-
     },
     watch: {
       visible: 'fade_out',
     }
-
   }
 </script>
 

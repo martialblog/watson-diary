@@ -1,6 +1,5 @@
 <template>
   <v-container fluid>
-    <h4>{{username}}</h4>
 
     <transition name="fade">
       <v-alert success v-bind:value="visible">
@@ -9,6 +8,13 @@
     </transition>
 
     <v-card>
+      <v-card-row class="light-blue darken-4">
+        <v-card-title>
+          <span class="white--text">{{username}}</span>
+          <v-spacer></v-spacer>
+        </v-card-title>
+      </v-card-row>
+
       <v-card-row>
         <v-card-text>
           <v-text-field label="Email" required v-model="mail"></v-text-field>
@@ -55,6 +61,12 @@
           </v-card>
         </v-dialog>
 
+        <v-btn info
+               light
+               router
+               :to="diary(username)"
+               >Diary</v-btn>
+
         <v-btn success
                light
                @click.native="update_user"
@@ -83,6 +95,9 @@
       }
     },
     methods: {
+      diary: function (username){
+        return "/diary/" + username;
+      },
       update_user: function (){
         this.$http.put('http://localhost:5000/users/' + this.username, {
 

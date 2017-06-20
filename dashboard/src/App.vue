@@ -7,7 +7,8 @@
       dark
       :mini-variant.sync="mini"
       v-model="drawer"
-    >
+      >
+
       <v-list dense>
         <template v-for="(item, i) in items">
           <v-layout
@@ -15,7 +16,8 @@
             v-if="item.heading"
             align-center
             :key="i"
-          >
+            >
+
             <v-flex xs6>
               <v-subheader v-if="item.heading">
                 {{ item.heading }}
@@ -38,7 +40,7 @@
             <v-list-item
               v-for="(child, i) in item.children"
               :key="i"
-            >
+              >
               <v-list-tile router :to="child.link">
                 <v-list-tile-action v-if="child.icon">
                   <v-icon>{{ child.icon }}</v-icon>
@@ -67,7 +69,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar class="blue accent-3" light>
+    <v-toolbar class="indigo accent-4" light>
       <v-toolbar-side-icon light @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-items>
         <v-toolbar-item v-for="link in links" :key="link">
@@ -75,9 +77,11 @@
         </v-toolbar-item>
       </v-toolbar-items>
     </v-toolbar>
+
     <main>
       <router-view></router-view>
     </main>
+
   </v-app>
 </template>
 
@@ -88,21 +92,21 @@
       drawer: false,
       mini: false,
       links: [
-        { text: 'Login', link: '/' },
-        { text: 'Register', link: '/' },
+        // { text: 'Login', link: '/' },
+        // { text: 'Register', link: '/' },
       ],
       items: [
         { icon: 'dashboard', text: 'Home', link: '/' },
-        {
-          icon: 'account_circle',
-          'icon-alt': 'keyboard_arrow_down',
-          text: 'Profile' ,
-          model: false,
-          children: [
-            { text: 'Diary', link: '/diary' },
-            { text: 'Manage Profile', link: '/profilemanager' },
-          ]
-        },
+        // {
+        //   icon: 'account_circle',
+        //   'icon-alt': 'keyboard_arrow_down',
+        //   text: 'Profile' ,
+        //   model: false,
+        //   children: [
+        //     { text: 'Diary', link: '/diary' },
+        //     //{ text: 'Manage Profile', link: '/profilemanager' },
+        //   ]
+        // },
         {
           icon: 'build',
           'icon-alt': 'keyboard_arrow_down',
@@ -121,7 +125,6 @@
     })
   }
 </script>
-
 
 <style lang="stylus">
   @import './stylus/main'

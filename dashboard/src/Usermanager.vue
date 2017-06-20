@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+
     <h4>Users</h4>
     <v-list three-line>
       <template v-for="item in users">
@@ -71,18 +72,15 @@
     },
     methods: {
       profile: function (username){
-        return "/profilemanager/" + username;
+        return "/profile/" + username;
       },
       delete_user: function (username) {
         this.$http.delete('http://localhost:5000/users/' + username).then(function(data){
-          console.log(data);
-
           var index = this.users.map(elem => elem.username).indexOf(username);
 
           if (index > -1) {
             this.users.splice(index, 1);
           };
-
         })
       },
       create_user: function () {

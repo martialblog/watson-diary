@@ -1,7 +1,8 @@
 <template>
   <v-container fluid>
+
     <v-layout row wrap>
-      <v-flex xs12 class="text-md-center">
+      <v-flex xs6 class="text-md-center">
           <v-menu
           lazy
           :close-on-content-click="false"
@@ -30,11 +31,19 @@
               </v-card-row>
             </template>
           </v-date-picker>
-        </v-menu>
+          </v-menu>
+
       </v-flex>
+      <v-flex xs3 class="text-md-center">
+        <v-btn outline class="indigo--text" @click.native="prev_date">Previous</v-btn>
+      </v-flex>
+      <v-flex xs3 class="text-md-center">
+        <v-btn outline class="indigo--text" @click.native="next_date">Next</v-btn>
+      </v-flex>
+    </v-layout>
 
-
-      <v-flex xs12 class="text-md-center">
+    <v-layout row wrap>
+      <v-flex xs6 class="text-md-center">
         <v-card class="mt-3">
           <v-card-text>
             <chart
@@ -44,13 +53,22 @@
           </v-card-text>
         </v-card>
       </v-flex>
-      <v-flex xs12>
+
+      <v-flex xs6>
         <v-card class="mt-3">
-          <v-card-text>{{text}}</v-card-text>
+          <v-card-row class="light-blue darken-4">
+            <v-card-title>
+              <span class="white--text">{{date}}</span>
+              <v-spacer></v-spacer>
+            </v-card-title>
+          </v-card-row>
+          <v-card-text>
+            {{text}}
+          </v-card-text>
         </v-card>
       </v-flex>
-
     </v-layout>
+
   </v-container>
 </template>
 
@@ -60,6 +78,7 @@ import Lorem from 'lorem-ipsum';
 export default {
   data () {
     return {
+      username: null,
       availableDates: [],
       chartoptions: {responsive: true, maintainAspectRatio: false},
       chartreport: {
@@ -76,14 +95,27 @@ export default {
     }
   },
   created () {
-    this.$http.get('http://localhost:5000/reports/sherlock').then(function(data){
+    this.username = this.$route.params.username;
+
+    this.$http.get('http://localhost:5000/reports/' + this.username).then(function(data){
         for (var value of data.body){
           this.availableDates.push(value.date);
           this.date = value.date;
         }
+      this.get_report();
     });
   },
   methods: {
+    next_date: function() {
+      var index = this.availableDates.indexOf(this.date);
+      this.date = this.availableDates[index + 1];
+      this.get_report();
+    },
+    prev_date: function() {
+      var index = this.availableDates.indexOf(this.date);
+      this.date = this.availableDates[index - 1];
+      this.get_report();
+    },
     save_date: function() {
       this.menu = false;
       this.get_report();
@@ -106,6 +138,7 @@ export default {
             data: values
           }]}
 
+      console.log(d);
       this.chartreport = d;
     },
     fill_text: function () {
@@ -114,14 +147,14 @@ export default {
       })
     },
     get_report: function () {
-
       var ta_report = null;
 
-      this.$http.get('http://localhost:5000/reports/sherlock/' + this.date).then(function(data){
+      this.$http.get('http://localhost:5000/reports/' + this.username +'/'+ this.date).then(function(data){
 
         for (var value of data.body){
           ta_report = value.reports[0].ta.document_tone.tone_categories[0].tones;
         }
+
         this.fill_chartdata(ta_report);
         this.fill_text();
       });
