@@ -10,6 +10,8 @@ import pymongo
 import utils
 
 import watson as w
+import report as r
+
 
 def create_app():
     """
@@ -28,8 +30,7 @@ def create_app():
     Watson = w.WatsonConnector(url=conf["watson"]["url"],
                              username=conf["watson"]["username"],
                              password=conf["watson"]["password"],
-                             version=conf["watson"]["version"],
-                             db_connector=db
+                             version=conf["watson"]["version"]
     )
 
     #########
@@ -245,7 +246,8 @@ def create_app():
         if not report:
             flask.abort(404)
 
-        Watson.ta_report(username, date)
+        rm = r.ReportManager(username, Watson, db)
+        rm.ta_report(date)
 
         return flask.jsonify({}, 201)
 
@@ -274,10 +276,11 @@ def create_app():
         Generate all reports for specified user.
         """
 
-        dates = Watson.dates(username)
+        rm = r.ReportManager(username, Watson, db)
+        dates = rm.get_dates()
 
         for date in dates:
-            Watson.ta_report(username, date)
+            rm.ta_report(date)
 
         return flask.jsonify({}, 200)
 

@@ -14,9 +14,8 @@ class WatsonConnector():
     Handles the connection to IBM Watson, API calls and whatnot.
     """
 
-    def __init__(self, url, username, password, version, db_connector):
+    def __init__(self, url, username, password, version):
 
-        self.db = db_connector
         self.tone_analyzer =  wdc.ToneAnalyzerV3(
             url=url,
             username=username,
@@ -34,78 +33,16 @@ class WatsonConnector():
 
         return data
 
-    def _get_feeds(self, username):
 
-        user = self.db.users.find_one({"username": username})
-
-        if not user:
-            return {}
-
-        try:
-            feeds = user["feeds"]
-        except IndexError as e:
-            feeds = {}
-        finally:
-            return feeds
-
-    def _get_aggregators(self, username):
-
-        aggregators = []
-        texts = []
-        feeds = self._get_feeds(username)
-
-        for userfeed in feeds:
-            feed = self.db.feeds.find_one({"key": userfeed['key']})
-            aggr = ApiAggregator(feed["url"] + userfeed['username'],
-                                 feed["date_field"],
-                                 feed["text_field"])
-
-            aggregators.append(aggr)
-
-        return aggregators
-
-    def dates(self, username):
-
-        dates = []
-
-        for aggregator in self._get_aggregators(username):
-            dates += aggregator.get_dates()
-
-        return dates
-
-    def ta_report(self, username, date):
+    def ta_report(self, text):
         """
-        Returns the Tone Analyzer Data for a specific user and date.
-
-        Returns the ID of the new database entry.
+        Returns the Tone Analyzer Data for a specific test.
         """
-
-        texts = []
-
-        for aggregator in self._get_aggregators(username):
-
-            text = aggregator.aggregate_date(date)
-            if text:
-                texts.append(text)
-
-        if not text:
-            return
-
-        text = ". ".join(texts)
 
         # Real Call
         #payload = self.tone_analyzer.tone(text=text)
         # Fake Call, since we only have limited access to IBM
         payload = self.mock_watson_ta(text)
+        ta_report = {"ta": payload}
 
-        new_report = { "username": username,
-                       "date": date,
-                       "reports": [{"ta": payload}],
-        }
-
-        new_id = self.db.reports.replace_one(
-            {"username": username, "date": date},
-            new_report,
-            True)
-
-        return new_id.raw_result
+        return ta_report
