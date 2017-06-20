@@ -5,6 +5,10 @@ import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 import Routes from './routes.js';
 
+import Chart from './Chart.vue';
+
+Vue.component('chart', Chart);
+
 Vue.use(VueRouter);
 Vue.use(VueResource);
 Vue.use(Vuetify);

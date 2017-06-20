@@ -33,17 +33,20 @@
         </v-menu>
       </v-flex>
 
-      <v-flex xs12>
-        <v-card class="mt-3">
-          <v-card-text>{{date}} - {{text}}</v-card-text>
-        </v-card>
-      </v-flex>
 
       <v-flex xs12 class="text-md-center">
         <v-card class="mt-3">
           <v-card-text>
-            <svg id="#chart" style='height:600px; width:600px'></svg>
+            <chart
+              :chart-data="chartreport"
+              :options="chartoptions"
+              ></chart>
           </v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs12>
+        <v-card class="mt-3">
+          <v-card-text>{{text}}</v-card-text>
         </v-card>
       </v-flex>
 
@@ -52,20 +55,27 @@
 </template>
 
 <script>
-import * as nv from 'nvd3';
+import Lorem from 'lorem-ipsum';
 
 export default {
   data () {
     return {
+      availableDates: [],
+      chartoptions: {responsive: true, maintainAspectRatio: false},
+      chartreport: {
+        labels: [],
+        datasets: [
+        {
+          label: 'Today',
+          backgroundColor: '#3D5AFE',
+          data: []
+        }]},
+      text: '',
       menu: false,
       date: null,
-      availableDates: [],
-      reportD3Data: [],
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu dapibus mi. In et auctor velit, nec pretium massa. Nunc rutrum metus tincidunt efficitur accumsan. Proin ut turpis at mauris accumsan ullamcorper vel vitae quam. Sed nunc augue, rutrum vitae tincidunt ut, congue porttitor quam. Donec semper, purus at sagittis tincidunt, ex tellus ullamcorper mi, a consequat libero risus id metus. Nam justo justo, tincidunt in congue ut, tristique ut quam. Donec vitae rutrum risus, in convallis tortor. Nam scelerisque gravida gravida. Maecenas nec massa in purus finibus dignissim. Proin finibus, odio id vehicula condimentum, neque velit rhoncus lorem, nec facilisis magna massa et nisi. Nulla posuere tristique ante, vehicula convallis ipsum egestas id. Mauris at fringilla lectus, vel sollicitudin sapien. Vivamus semper sodales ligula, laoreet egestas dolor mollis non. Morbi tincidunt augue odio, a molestie massa aliquet molestie.',
     }
   },
   created () {
-    // var today = new Date().toISOString().substring(0, 10);
     this.$http.get('http://localhost:5000/reports/sherlock').then(function(data){
         for (var value of data.body){
           this.availableDates.push(value.date);
@@ -74,64 +84,48 @@ export default {
     });
   },
   methods: {
-    save_date: function () {
-      var emotions = null;
+    save_date: function() {
+      this.menu = false;
+      this.get_report();
+    },
+    fill_chartdata: function (data) {
+      var labels = [];
+      var values = [];
+
+      for (var emotion of data){
+        labels.push(emotion.tone_name);
+        values.push(emotion.score*100);
+      }
+
+      var d = {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Today',
+            backgroundColor: '#3D5AFE',
+            data: values
+          }]}
+
+      this.chartreport = d;
+    },
+    fill_text: function () {
+      this.text = Lorem({
+        count: 30
+      })
+    },
+    get_report: function () {
+
+      var ta_report = null;
+
       this.$http.get('http://localhost:5000/reports/sherlock/' + this.date).then(function(data){
+
         for (var value of data.body){
-          emotions = value.reports[0].ta.document_tone.tone_categories[0].tones;
+          ta_report = value.reports[0].ta.document_tone.tone_categories[0].tones;
         }
-        for (var emotion of emotions){
-          this.reportD3Data.push({label: emotion.tone_name, value: emotion.score});
-        }
+        this.fill_chartdata(ta_report);
+        this.fill_text();
       });
-      console.log(this.reportD3Data);
     }
-  },
-  mounted() {
-
-    function reportData() {
-      return  [
-        {
-          "label": "Anger",
-          "value" : 29.765957771107
-        } ,
-        {
-          "label": "Disgust",
-          "value" : 50.0
-        } ,
-        {
-          "label": "Fear",
-          "value" : 32.807804682612
-        } ,
-        {
-          "label": "Joy",
-          "value" : 96.45946739256
-        } ,
-        {
-          "label": "Sadness",
-          "value" : 50.19434030906893
-        } ]}
-
-    nv.addGraph(function() {
-
-      var chart = nv.models.pieChart()
-          .x(function(d) { return d.label })
-          .y(function(d) { return d.value })
-          .showLabels(true)
-          .labelThreshold(.05)
-          .labelType("percent")
-          .donut(true)
-          .donutRatio(0.35)
-      ;
-
-      d3.select("svg")
-        .datum(reportData())
-        .transition().duration(350)
-        .call(chart);
-
-      return chart;
-    });
-
   }
 }
 </script>
