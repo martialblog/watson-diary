@@ -92,10 +92,7 @@ class ReportManager():
 
         text = ". ".join(texts)
 
-        # Real Call
-        #payload = self.watson.tone_analyzer.tone(text=text)
-        # Fake Call, since we only have limited access to IBM
-        payload = self.watson.mock_watson_ta(text)
+        payload = self.watson.ta_report(text)
         report["reports"].append(payload)
 
         newid = self.db.reports.replace_one(

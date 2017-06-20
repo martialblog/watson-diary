@@ -40,9 +40,9 @@ class WatsonConnector():
         """
 
         # Real Call
-        #payload = self.tone_analyzer.tone(text=text)
+        payload = self.tone_analyzer.tone(text=text)
         # Fake Call, since we only have limited access to IBM
-        payload = self.mock_watson_ta(text)
+        #payload = self.mock_watson_ta(text)
         ta_report = {"ta": payload}
 
         return ta_report
