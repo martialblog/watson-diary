@@ -2,12 +2,11 @@
 
 
 import json
-import watson_developer_cloud as wdc
+from watson_developer_cloud import NaturalLanguageUnderstandingV1
+import watson_developer_cloud.natural_language_understanding.features.v1 as \
+    features
 
 from aggregator import ApiAggregator
-
-# TODO This class is shit... I know.
-# TODO All this Feed Stuff should really be in another class
 
 class WatsonConnector():
     """
@@ -16,33 +15,36 @@ class WatsonConnector():
 
     def __init__(self, url, username, password, version):
 
-        self.tone_analyzer =  wdc.ToneAnalyzerV3(
+        self.natural_language_understanding = NaturalLanguageUnderstandingV1(
             url=url,
+            version=version,
             username=username,
-            password=password,
-            version=version
-        )
+            password=password)
 
-    def mock_watson_ta(self, data):
+
+    def mock_watson(self, data):
         """
         Mocking the IBM Watson Tone Analyzer call for testing.
         """
 
-        with open('response.json.example') as data_file:
+        with open('response.json.example.2') as data_file:
             data = json.load(data_file)
 
         return data
 
 
-    def ta_report(self, text):
+    def report(self, text):
         """
-        Returns the Tone Analyzer Data for a specific test.
+        Returns the Watson Data for a specific test.
         """
 
         # Real Call
-        payload = self.tone_analyzer.tone(text=text)
-        # Fake Call, since we only have limited access to IBM
-        #payload = self.mock_watson_ta(text)
-        ta_report = {"ta": payload}
+        payload = self.natural_language_understanding.analyze(
+           text=text,
+           features=[features.Entities(), features.Keywords(), features.Emotion()])
 
-        return ta_report
+        # Fake Call, since we only have limited access to IBM
+        # payload = self.mock_watson(text)
+        nlu_report = {"nlu": payload}
+
+        return nlu_report

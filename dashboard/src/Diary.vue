@@ -1,4 +1,4 @@
-<template>
+y<template>
   <v-container fluid>
 
     <v-layout row wrap>
@@ -63,7 +63,18 @@
             </v-card-title>
           </v-card-row>
           <v-card-text>
-            {{text}}
+            <h4>Keywords</h4>
+            <ul id="keywords">
+              <li v-for="item in keywords">
+                {{ item.text }}
+              </li>
+            </ul>
+            <h4>Entities</h4>
+            <ul id="entities">
+              <li v-for="item in entities">
+                {{ item.text }}
+              </li>
+            </ul>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -89,7 +100,8 @@ export default {
           backgroundColor: '#3D5AFE',
           data: []
         }]},
-      text: '',
+      keywords: [],
+      entities: [],
       menu: false,
       date: null,
     }
@@ -121,12 +133,13 @@ export default {
       this.get_report();
     },
     fill_chartdata: function (data) {
+      var res = Object.entries(data).map((value)=>(value));
       var labels = [];
       var values = [];
 
-      for (var emotion of data){
-        labels.push(emotion.tone_name);
-        values.push(emotion.score*100);
+      for (var emotion of res){
+        labels.push(emotion[0]);
+        values.push(emotion[1]*100);
       }
 
       var d = {
@@ -138,25 +151,30 @@ export default {
             data: values
           }]}
 
-      console.log(d);
       this.chartreport = d;
     },
-    fill_text: function () {
-      this.text = Lorem({
-        count: 30
-      })
+    fill_entities: function (data) {
+      this.entities = data;
+    },
+    fill_keywords: function (data) {
+      this.keywords = data;
     },
     get_report: function () {
-      var ta_report = null;
+      var emotion = null;
+      var keywords = null;
+      var entities = null;
 
       this.$http.get('http://localhost:5000/reports/' + this.username +'/'+ this.date).then(function(data){
 
         for (var value of data.body){
-          ta_report = value.reports[0].ta.document_tone.tone_categories[0].tones;
+          emotion = value.reports[0].nlu.emotion.document.emotion;
+          keywords = value.reports[0].nlu.keywords
+          entities = value.reports[0].nlu.entities;
         }
 
-        this.fill_chartdata(ta_report);
-        this.fill_text();
+        this.fill_chartdata(emotion);
+        this.fill_keywords(keywords);
+        this.fill_entities(entities);
       });
     }
   }

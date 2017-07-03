@@ -92,7 +92,7 @@ class ReportManager():
 
         text = ". ".join(texts)
 
-        payload = self.watson.ta_report(text)
+        payload = self.watson.report(text)
         report["reports"].append(payload)
 
         newid = self.db.reports.replace_one(
