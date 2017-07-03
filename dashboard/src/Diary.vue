@@ -63,18 +63,18 @@ y<template>
             </v-card-title>
           </v-card-row>
           <v-card-text>
-            <h4>Keywords</h4>
-            <ul id="keywords">
-              <li v-for="item in keywords">
+            <h5 v-if="keywords.length > 0">Keywords</h5>
+            <v-chip label class="pink white--text" v-for="item in keywords">
+              <v-icon left>label</v-icon>
+              {{ item.text }}
+            </v-chip>
+            <h5 v-if="entities.length > 0">Entities</h5>
+            <v-chip class="indigo white--text" v-for="item in entities">
+              <v-avatar>
+                <v-icon>account_circle</v-icon>
+              </v-avatar>
                 {{ item.text }}
-              </li>
-            </ul>
-            <h4>Entities</h4>
-            <ul id="entities">
-              <li v-for="item in entities">
-                {{ item.text }}
-              </li>
-            </ul>
+            </v-chip>
           </v-card-text>
         </v-card>
       </v-flex>
