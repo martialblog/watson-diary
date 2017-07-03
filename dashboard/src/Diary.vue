@@ -42,6 +42,14 @@ y<template>
       </v-flex>
     </v-layout>
 
+      <v-layout row wrap>
+      <v-flex xs6 class="text-md-center">
+        <h4>{{username}}</h4>
+      </v-flex>
+      <v-flex xs6 class="text-md-center">
+      </v-flex>
+      </v-layout>
+
     <v-layout row wrap>
       <v-flex xs6 class="text-md-center">
         <v-card class="mt-3">
@@ -167,6 +175,7 @@ export default {
       this.$http.get('http://localhost:5000/reports/' + this.username +'/'+ this.date).then(function(data){
 
         for (var value of data.body){
+          console.log(value);
           emotion = value.reports[0].nlu.emotion.document.emotion;
           keywords = value.reports[0].nlu.keywords
           entities = value.reports[0].nlu.entities;
