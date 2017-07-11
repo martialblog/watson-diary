@@ -1,0 +1,23 @@
+
+{
+	"id": "203984091908",
+	"internalDate": "Fri Apr 14 13:28:35 2017",
+	"payload": {
+		"mimeType": "text/html",
+		"headers": [
+    		{
+    			"from": "sherlock@example.com",
+    			"to": "drwatson@example.com",
+    			"subject": "Separating"
+
+    		}
+  			],
+    		"body": "Dear Dr. Watson,
+			I need to go to Tunis, thats where our contact pointed me. I do not fully trust him, though..
+			You stay here and look for further hints, I am speaking to some officials there.
+			Contact me as soon as you get news!
+			Yours,
+			Sherlock"
+    }
+}
+					

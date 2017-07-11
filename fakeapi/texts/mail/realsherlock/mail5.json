@@ -1,0 +1,23 @@
+
+{
+	"id": "203984091908",
+	"internalDate": "Wed Apr 5 14:32:03 2017",
+	"payload": {
+		"mimeType": "text/html",
+		"headers": [
+    		{
+    			"from": "sherlock@example.com",
+    			"to": "drwatson@example.com",
+    			"subject": "Rick and Morty"
+
+    		}
+  			],
+    		"body": "Dear Dr. Watson,
+			Did you hear? Adult Swim's Rick and Morty is airing in August...
+			We need to investigate, why that is taking so long!
+			Meet me in my office in half an hour, I'm thinking about an approach to fix this!
+			Yours,
+			Sherlock"
+    }
+}
+					

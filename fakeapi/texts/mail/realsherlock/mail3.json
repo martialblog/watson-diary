@@ -1,0 +1,23 @@
+
+{
+	"id": "203984091908",
+	"internalDate": "Mon Apr 3 09:31:20 2017",
+	"payload": {
+		"mimeType": "text/html",
+		"headers": [
+    		{
+    			"from": "sherlock@example.com",
+    			"to": "drwatson@example.com",
+    			"subject": "Success!"
+
+    		}
+  			],
+    		"body": "My fellow Dr. Watson,
+			After 6 hours of searching I finally found the cat and returned it to the little girl.
+ 			I am tired as I never have been in my whole life, so I'm not showing up for work.
+			Good feeling, tho.
+			Yours,
+			Sherlock"
+    }
+}
+					

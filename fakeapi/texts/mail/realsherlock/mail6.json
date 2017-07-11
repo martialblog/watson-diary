@@ -1,0 +1,23 @@
+
+{
+	"id": "203984091908",
+	"internalDate": "Thu Apr 6 06:19:14 2017",
+	"payload": {
+		"mimeType": "text/html",
+		"headers": [
+    		{
+    			"from": "sherlock@example.com",
+    			"to": "drwatson@example.com",
+    			"subject": "Special case"
+
+    		}
+  			],
+    		"body": "My fellow Dr. Watson,
+			I just got a request from a nigerian prince, who wants to talk to me about his Bank account.
+ 			Not the first time we got a royal mission, isn't it?
+			Stay alert!
+			Yours,
+			Sherlock"
+    }
+}
+					

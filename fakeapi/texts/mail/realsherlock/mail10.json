@@ -1,0 +1,25 @@
+
+{
+	"id": "203984091908",
+	"internalDate": "Mon Apr 10 06:43:25 2017",
+	"payload": {
+		"mimeType": "text/html",
+		"headers": [
+    		{
+    			"from": "sherlock@example.com",
+    			"to": "drwatson@example.com",
+    			"subject": "Operation: Crown-funding begins"
+
+    		}
+  			],
+    		"body": "My fellow companion,
+			we got a meeting with officer Trickleberry today, who will show us the CCTV-evidence on who might be accused
+ 			for stealing her majesty's crown. I think this is going to be very helpful for our case!
+			Don't forget to bring your magnifying glass, we will look around the crime scene.
+			I'm preparing my pipe already.
+			See you soon!
+			Yours,
+			Sherlock"
+    }
+}
+					

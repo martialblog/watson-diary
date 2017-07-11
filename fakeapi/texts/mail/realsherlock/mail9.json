@@ -1,0 +1,22 @@
+
+{
+	"id": "203984091908",
+	"internalDate": "Sun Apr 9 06:02:27 2017",
+	"payload": {
+		"mimeType": "text/html",
+		"headers": [
+    		{
+    			"from": "sherlock@example.com",
+    			"to": "drwatson@example.com",
+    			"subject": "Operation: Crown-funding"
+
+    		}
+  			],
+    		"body": "Dear Dr. Watson,
+			I spent the whole night thinking about a suitable title for our mission, and it was totally worth it!
+			Well, thats all for now, I'm going to rest a while.
+			Yours,
+			Sherlock"
+    }
+}
+					

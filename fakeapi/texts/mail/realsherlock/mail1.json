@@ -1,16 +1,25 @@
-{
-  "id": "203984091908",
-  "internalDate": "Mon Apr 03 16:09:50 2017",
-  "payload": {
-    "mimeType": "text/html",
-    "headers": [
-      {
-        "from": "sherlock@example.com",
-        "to": "drwatson@example.com",
-        "subject": "This is my mail"
 
-      }
-    ],
-    "body": "This is an email"
-  }
+{
+	"id": "203984091908",
+	"internalDate": "Sat Apr 1 12:34:09 2017",
+	"payload": {
+		"mimeType": "text/html",
+		"headers": [
+    		{
+    			"from": "sherlock@example.com",
+    			"to": "drwatson@example.com",
+    			"subject": "New case"
+
+    		}
+  			],
+    		"body": "My fellow Dr. Watson,
+			I just got a request for a new case, we were asked to accomplish.
+ 			The 10-year old Ashley lost her cat and can't find it anywhere.
+ 			I know, you might think, this is below our standards, but we got to find this cat, this girl is too adorable!
+			Let's meet at 3 for further investigation!
+ 			Yours,
+			Sherlock.
+ 			P.S: Don't forget to bring crisps!"
+    }
 }
+					

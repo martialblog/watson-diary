@@ -1,0 +1,24 @@
+
+{
+	"id": "203984091908",
+	"internalDate": "Thu Apr 13 01:49:02 2017",
+	"payload": {
+		"mimeType": "text/html",
+		"headers": [
+    		{
+    			"from": "sherlock@example.com",
+    			"to": "drwatson@example.com",
+    			"subject": "Off we go"
+
+    		}
+  			],
+    		"body": "My fellow Dr. Watson,
+			after intense researching I found out, we need to visit Berlin!
+			Officials told me, the last time the criminal was seen was there!
+			Maybe he wants to sell the crown there...
+			I'm booking tickets right now. Begin to pack your stuff immediately, when you read this!
+			Yours,
+			Sherlock"
+    }
+}
+					

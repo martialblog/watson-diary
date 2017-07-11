@@ -1,0 +1,22 @@
+
+{
+	"id": "203984091908",
+	"internalDate": "Sat Apr 8 13:14:46 2017",
+	"payload": {
+		"mimeType": "text/html",
+		"headers": [
+    		{
+    			"from": "sherlock@example.com",
+    			"to": "drwatson@example.com",
+    			"subject": "New (legit) case! "
+
+    		}
+  			],
+    		"body": "Dr. Watson,
+			meet me in my office as soon as you can! We need to help our majesty the queen!
+			More details then!
+			Yours,
+			Sherlock"
+    }
+}
+					

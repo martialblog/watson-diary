@@ -1,0 +1,23 @@
+
+{
+	"id": "203984091908",
+	"internalDate": "Fri Apr 7 10:28:24 2017",
+	"payload": {
+		"mimeType": "text/html",
+		"headers": [
+    		{
+    			"from": "sherlock@example.com",
+    			"to": "drwatson@example.com",
+    			"subject": "Scam!"
+
+    		}
+  			],
+    		"body": "Dear Dr. Watson,
+			it seems like the nigerian prince was just a spambot who wanted my bank account data..
+			How disillusioning...
+			Well, see you later, I guess..
+			Yours, 
+ 			Sherlock"
+    }
+}
+					
