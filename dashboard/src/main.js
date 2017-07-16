@@ -6,8 +6,10 @@ import VueResource from 'vue-resource';
 import Routes from './routes.js';
 
 import Chart from './Chart.vue';
+import LineChart from './LineChart.vue';
 
 Vue.component('chart', Chart);
+Vue.component('linechart', LineChart);
 
 Vue.use(VueRouter);
 Vue.use(VueResource);

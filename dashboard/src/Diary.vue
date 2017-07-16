@@ -72,12 +72,12 @@ y<template>
           </v-card-row>
           <v-card-text>
             <h5 v-if="keywords.length > 0">Keywords</h5>
-            <v-chip label class="pink white--text" v-for="item in keywords">
+            <v-chip label class="pink white--text" v-for="item in keywords" :key="item.text">
               <v-icon left>label</v-icon>
               {{ item.text }}
             </v-chip>
             <h5 v-if="entities.length > 0">Entities</h5>
-            <v-chip class="indigo white--text" v-for="item in entities">
+            <v-chip class="indigo white--text" v-for="item in entities" :key="item.text">
               <v-avatar>
                 <v-icon>account_circle</v-icon>
               </v-avatar>
@@ -88,18 +88,34 @@ y<template>
       </v-flex>
     </v-layout>
 
+
+    <v-layout row wrap>
+      <v-flex xs12 class="text-md-center">
+        <v-card class="mt-3">
+          <v-card-text>
+            <linechart
+              :chart-data="linechartreport"
+              :options="chartoptions"
+              ></linechart>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+        </v-layout>
+
   </v-container>
 </template>
 
 <script>
-import Lorem from 'lorem-ipsum';
-
 export default {
   data () {
     return {
       username: null,
       availableDates: [],
       chartoptions: {responsive: true, maintainAspectRatio: false},
+      linechartreport: {
+        labels: [],
+        datasets: [
+        ]},
       chartreport: {
         labels: [],
         datasets: [
@@ -123,6 +139,7 @@ export default {
           this.date = value.date;
         }
       this.get_report();
+      this.fill_linechart(data);
     });
   },
   methods: {
@@ -175,7 +192,6 @@ export default {
       this.$http.get('http://localhost:5000/reports/' + this.username +'/'+ this.date).then(function(data){
 
         for (var value of data.body){
-          console.log(value);
           emotion = value.reports[0].nlu.emotion.document.emotion;
           keywords = value.reports[0].nlu.keywords
           entities = value.reports[0].nlu.entities;
@@ -185,6 +201,61 @@ export default {
         this.fill_keywords(keywords);
         this.fill_entities(entities);
       });
+    },
+    fill_linechart: function (data) {
+      var labels = []
+      var anger = []
+      var fear = []
+      var disgust = []
+      var joy = []
+      var sadness = []
+
+      for (var value of data.body){
+        labels.push(value.date);
+        fear.push(value.reports[0].nlu.emotion.document.emotion['fear'] * 100);
+        sadness.push(value.reports[0].nlu.emotion.document.emotion['sadness'] * 100);
+        anger.push(value.reports[0].nlu.emotion.document.emotion['anger'] * 100);
+        joy.push(value.reports[0].nlu.emotion.document.emotion['joy'] * 100);
+        disgust.push(value.reports[0].nlu.emotion.document.emotion['disgust'] * 100);
+      }
+
+      var datasets = {
+        labels: labels,
+        datasets: [
+        {
+          label: 'Anger',
+          fill: false,
+          borderColor: '#b71c1c',
+          data: anger
+        },
+        {
+          label: 'Disgust',
+          fill: false,
+          borderColor: '#2e7d32',
+          data: disgust
+        },
+        {
+          label: 'Fear',
+          fill: false,
+          borderColor: '#4527a0',
+          data: fear
+        },
+        {
+          label: 'Sadness',
+          fill: false,
+          borderColor: '#1e88e5',
+          data: sadness
+        },
+        {
+          label: 'Joy',
+          fill: false,
+          borderColor: '#ef6c00',
+          data: joy
+        }]
+      };
+
+      this.linechartreport = datasets;
+
     }
   }
 }
