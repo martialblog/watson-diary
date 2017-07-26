@@ -1,18 +1,15 @@
-
 {
 	"id": "203984091908",
 	"internalDate": "Tue Apr 4 12:01:04 2017",
 	"payload": {
 		"mimeType": "text/html",
-		"headers": [
-    		{
-    			"from": "sherlock@example.com",
-    			"to": "drwatson@example.com",
-    			"subject": "Lunch"
+		"headers": [{
+			"from": "sherlock@example.com",
+			"to": "drwatson@example.com",
+			"subject": "Lunch"
 
-    		}
-  			],
-    		"body": "Hey Dr. Watson, Wanna meet up for lunch at Grisby's in about twenty minutes? If your time doesn't allow it, I would suggest, we meet up for teatime instead. Yours, Sherlock"
-    }
+		}],
+		"body": "Hey Dr. Watson, Wanna meet up for lunch at Grisby's in about twenty minutes? If your time doesn't allow it, I would suggest, we meet up for teatime instead. Yours, Sherlock"
+	}
 }
 					

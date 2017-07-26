@@ -1,17 +1,15 @@
-
 {
 	"id": "203984091908",
 	"internalDate": "Wed Apr 12 20:15:14 2017",
 	"payload": {
 		"mimeType": "text/html",
-		"headers": [
-    		{
-    			"from": "sherlock@example.com",
-    			"to": "drwatson@example.com",
-    			"subject": "Meeting"
+		"headers": [{
+			"from": "sherlock@example.com",
+			"to": "drwatson@example.com",
+			"subject": "Meeting"
 
-    		}
-  			],
-    		"body": "My fellow Dr. Watson, sorry, I left you in the subway, but the scent was too hot! And no it was not for tea! Meet me as soon as you can in our hotel, I got to tell you my findings! Yours, Sherlock"
-    }
+		}],
+		"body": "My fellow Dr. Watson, sorry, I left you in the subway, but the scent was too hot! And no it was not for tea! Meet me as soon as you can in our hotel, I got to tell you my findings! Yours, Sherlock"
+	}
 }
+					

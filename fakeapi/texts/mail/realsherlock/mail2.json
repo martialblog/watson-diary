@@ -1,18 +1,14 @@
-
 {
 	"id": "203984091908",
 	"internalDate": "Sun Apr 2 03:47:32 2017",
 	"payload": {
 		"mimeType": "text/html",
-		"headers": [
-    		{
-    			"from": "sherlock@example.com",
-    			"to": "drwatson@example.com",
-    			"subject": "Rumours"
+		"headers": [{
+			"from": "sherlock@example.com",
+			"to": "drwatson@example.com",
+			"subject": "Rumours"
 
-    		}
-  			],
-    		"body": "Dear Dr. Watson, I found out, that cats are nocturnal, so I'm heading out for investigating at this unholy time. Wish me luck! Yours, Sherlock"
-    }
-}
-					
+		}],
+		"body": "Dear Dr. Watson, I found out, that cats are nocturnal, so I'm heading out for investigating at this unholy time. Wish me luck! Yours, Sherlock"
+	}
+}			
