@@ -1,10 +1,10 @@
 class personalityInterpreter {
-  // Provide this method with an object: {facet: percentile, [...]. For exampl: {facet_altruism: 0.92928, facet_cooperation: 0.38433}
+  // Provide this method with an object: { facet: percentile, [...] }. For exampl: { facet_altruism: 0.92928, facet_cooperation: 0.38433 }
   // Returns an array of strings, describing the most prominent traids of the author in connection to agreeableness.
   interpretAgreeableness(big5_agreeableness) {
     const highValue = 0.65;
     const lowValue = 0.35;
-    big5_agreeableness = {facet_altruism, facet_cooperation, facet_modesty, facet_morality, facet_sympathy, facet_trust};
+    big5_agreeableness = { facet_altruism, facet_cooperation, facet_modesty, facet_morality, facet_sympathy, facet_trust };
     let result = [];
 
     if (facet_altruism > highValue) {
@@ -46,49 +46,51 @@ class personalityInterpreter {
     return result;
   }
 
-/*
+
   // Returns an array of strings, describing the most prominent traids of the author in connection to Conscientiousness.
-  interpretConscientiousness(data) {
-    data = {AchievementStriving, Cautiousness, Dutifulness, Orderliness, SelfDiscipline, SelfEfficacy};
+  interpretConscientiousness(big5_conscientiousness) {
+    const highValue = 0.65;
+    const lowValue = 0.35;
+    data = { facet_achievement_striving, facet_cautiousness, facet_dutifulness, facet_orderliness, facet_self_discipline, facet_self_efficacy};
     let result = [];
 
-    if (AchievementStriving > highValue) {
+    if (facet_achievement_striving > highValue) {
       result.push('You set high goals for yourself and work hard to achieve them.');
-    } else if (AchievementStriving < lowValue) {
+    } else if (facet_achievement_striving < lowValue) {
       result.push('You are content with your level of accomplishment and do not feel the need to set ambitious goals.');
     }
 
-    if (Cautiousness > highValue) {
+    if (facet_cautiousness > highValue) {
       result.push('You carefully think through decisions before making them.');
-    } else if (Cautiousness < lowValue) {
+    } else if (facet_cautiousness < lowValue) {
       result.push('You would rather take action immediately than spend time deliberating making a decision.');
     }
 
-    if (Dutifulness > highValue) {
+    if (facet_dutifulness > highValue) {
       result.push('You take rules and obligations seriously, even when they are inconvenient.');
-    } else if (Dutifulness < lowValue) {
+    } else if (facet_dutifulness < lowValue) {
       result.push('You do what you want, disregarding rules and obligations.');
     }
 
-    if (Orderliness > highValue) {
+    if (facet_orderliness > highValue) {
       result.push('You feel a strong need for structure in your life.');
-    } else if (Orderliness < lowValue) {
+    } else if (facet_orderliness < lowValue) {
       result.push('You do not make a lot of time for organization in your daily life.');
     }
 
-    if (SelfDiscipline > highValue) {
+    if (facet_self_discipline > highValue) {
       result.push('You can tackle and stick with tough tasks.');
-    } else if (SelfDiscipline < lowValue) {
+    } else if (facet_self_discipline < lowValue) {
       result.push('You have a hard time sticking with difficult tasks for a long period of time.');
     }
 
-    if (SelfEfficacy > highValue) {
+    if (facet_self_efficacy > highValue) {
       result.push('You feel you have the ability to succeed in the tasks you set out to do.');
-    } else if (SelfEfficacy < lowValue) {
+    } else if (facet_self_efficacy < lowValue) {
       result.push('You frequently doubt your ability to achieve your goals.');
     }
 
     return result;
   }
-  */
+
 }
