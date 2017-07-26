@@ -1,46 +1,45 @@
 class personalityInterpreter {
-  const highValue = 0.65;
-  const lowValue = 0.35;
-
   // Provide this method with an object: {facet: percentile, [...]. For exampl: {facet_altruism: 0.92928, facet_cooperation: 0.38433}
   // Returns an array of strings, describing the most prominent traids of the author in connection to agreeableness.
   interpretAgreeableness(big5_agreeableness) {
-    big5_openness = {facet_altruism, facet_cooperation, facet_modesty, facet_morality, facet_sympathy, facet_trust};
+    const highValue = 0.65;
+    const lowValue = 0.35;
+    big5_agreeableness = {facet_altruism, facet_cooperation, facet_modesty, facet_morality, facet_sympathy, facet_trust};
     let result = [];
 
-    if (Altruism > highValue) {
+    if (facet_altruism > highValue) {
       result.push('You feel fulfilled when helping others and will go out of your way to do so.');
-    } else if (Altruism < lowValue) {
+    } else if (facet_altruism < lowValue) {
       result.push('You are more concerned with taking care of yourself than taking time for others.');
     }
 
-    if (Cooperation > highValue) {
+    if (facet_cooperation > highValue) {
       result.push('You are easy to please and try to avoid confrontation.');
-    } else if (Cooperation < lowValue) {
+    } else if (facet_cooperation < lowValue) {
       result.push('You do not shy away from contradicting others.');
     }
 
-    if (Modesty > highValue) {
+    if (facet_modesty > highValue) {
       result.push('You are uncomfortable being the center of attention.');
-    } else if (Modesty < lowValue) {
+    } else if (facet_modesty < lowValue) {
       result.push('You hold yourself in high regard and are satisfied with who you are.');
     }
 
-    if (Morality > highValue) {
+    if (facet_morality > highValue) {
       result.push('You think it is wrong to take advantage of others to get ahead.');
-    } else if (Morality < lowValue) {
+    } else if (facet_morality < lowValue) {
       result.push('You are comfortable using every trick in the book to get what you want.');
     }
 
-    if (Sympathy > highValue) {
+    if (facet_sympathy > highValue) {
       result.push('You feel what others feel and are compassionate toward them.');
-    } else if (Sympathy < lowValue) {
+    } else if (facet_sympathy < lowValue) {
       result.push('You think people should generally rely more on themselves than on others.');
     }
 
-    if (Trust > highValue) {
+    if (facet_trust > highValue) {
       result.push('You believe the best of others and trust people easily.');
-    } else if (Trust < lowValue) {
+    } else if (facet_trust < lowValue) {
       result.push('You are wary of other peoples intentions and do not trust easily.');
     }
 
