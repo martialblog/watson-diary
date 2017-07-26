@@ -1,8 +1,0 @@
-{
-	"id": 8489305510930,
-	"created_time": "Sat May 20 10:15:23 2017",
-	"from": "Sherlock Holmes",
-	"is_published": true,
-	"message": "Dudes, I think, my cat ran away! If you see him, please tell me!",
-	"to": []
-}

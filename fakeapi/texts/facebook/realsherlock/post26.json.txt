@@ -1,8 +1,0 @@
-{
-	"id": 8489305510930,
-	"created_time": "Sat May 19 22:10:54 2017",
-	"from": "Sherlock Holmes",
-	"is_published": true,
-	"message": "At least I am out for one beer this weekend, I think I earned it. :)",
-	"to": []
-}

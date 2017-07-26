@@ -1,8 +1,0 @@
-{
-	"id": 8489305510930,
-	"created_time": "Mon May 8 07:46:23 2017",
-	"from": "Sherlock Holmes",
-	"is_published": true,
-	"message": "I just realized, today is monday again... Luckily there are just 5 working days.",
-	"to": []
-}

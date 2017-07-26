@@ -1,8 +1,0 @@
-{
-	"id": 8489305510930,
-	"created_time": "Tue May 16 09:29:33 2017",
-	"from": "Sherlock Holmes",
-	"is_published": true,
-	"message": "That feeling when math class doesn't take place today.. Thanks, Mr. Watson!",
-	"to": []
-}

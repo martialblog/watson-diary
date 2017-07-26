@@ -1,8 +1,0 @@
-{
-	"id": 8489305510930,
-	"created_time": "Tue May 9 15:59:45 2017",
-	"from": "Sherlock Holmes",
-	"is_published": true,
-	"message": "What a nice day to go for a walk with my dog! Enjoy your sunny rest of the day, friends!",
-	"to": []
-}

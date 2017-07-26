@@ -1,8 +1,0 @@
-{
-	"id": 8489305510930,
-	"created_time": "Tue May 2 14:20:03 2017",
-	"from": "Sherlock Holmes",
-	"is_published": true,
-	"message": "Today was awesome!",
-	"to": []
-}

@@ -1,8 +1,0 @@
-{
-	"id": 8489305510930,
-	"created_time": "Tue May 23 22:08:56 2017",
-	"from": "Sherlock Holmes",
-	"is_published": true,
-	"message": "Tomorrow is the big soccer game, I am excited! Who's with me?",
-	"to": []
-}

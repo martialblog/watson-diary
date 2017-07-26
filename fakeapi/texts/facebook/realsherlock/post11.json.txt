@@ -1,8 +1,0 @@
-{
-	"id": 8489305510930,
-	"created_time": "Fri May 12 23:19:04 2017",
-	"from": "Sherlock Holmes",
-	"is_published": true,
-	"message": "Wow, I can't believe Bayern Munich beat Borussia Dortmund today.",
-	"to": []
-}
