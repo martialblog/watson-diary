@@ -1,0 +1,8 @@
+{
+	"id": 8489305510930,
+	"created_time": "Fri May 19 09:41:02 2017",
+	"from": "Sherlock Holmes",
+	"is_published": true,
+	"message": "Looking forward to the dentist... not! But dental hygiene is still important, kids! Rofl",
+	"to": []
+}
