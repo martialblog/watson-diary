@@ -90,14 +90,15 @@
         var index = this.feeds.map(elem => elem.key).indexOf(k);
 
         if (index > -1) {
+
           this.$http.put('http://localhost:5000/feeds/' + k, {
 
             key: k,
             url: this.feeds[index].url,
             name: this.feeds[index].name,
             active: Boolean(this.feeds[index].active),
-            date_field: "created_at",
-            text_field: "text"
+            date_field: this.feeds[index].date_field,
+            text_field: this.feeds[index].text_field
 
           }).then(function(data){
             console.log(data);
