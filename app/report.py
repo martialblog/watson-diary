@@ -22,12 +22,17 @@ class ReportManager():
     def get_user_feeds(self):
 
         user = self.db.users.find_one({"username": self.username})
+        # TODO Need to check if feed is available and active
 
         if not user:
             return {}
 
         try:
-            feeds = user["feeds"]
+            # TODO for debugging hardcoded
+            # feeds = user["feeds"]
+            feeds = [{'username': 'realsherlock', 'key': 'facebook'},
+                     {'username': 'realsherlock', 'key': 'twitter'},
+                     {'username': 'realsherlock', 'key': 'gmail'}]
         except IndexError as e:
             feeds = {}
         finally:
@@ -54,11 +59,12 @@ class ReportManager():
 
         for userfeed in feeds:
             feed = self.db.feeds.find_one({"key": userfeed['key']})
-            aggr = ApiAggregator(feed["url"] + userfeed['username'],
-                                 feed["date_field"],
-                                 feed["text_field"])
+            if not feed:
+                aggr = ApiAggregator(feed["url"] + userfeed['username'],
+                                     feed["date_field"],
+                                     feed["text_field"])
 
-            self.aggregators.append(aggr)
+                self.aggregators.append(aggr)
 
 
     def get_dates(self):
