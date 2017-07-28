@@ -103,7 +103,7 @@ y<template>
     </v-layout>
 
     <v-layout row wrap>
-      <v-flex xs12 class="text-md-center">
+      <v-flex xs12>
         <v-card class="mt-3">
           <v-card-text>
            <v-text-field
@@ -111,7 +111,7 @@ y<template>
              single-line
              prepend-icon="micro"
              v-model="chatinput"
-             @keyup.native.enter="post_chatbot(chatinput)"
+             @keyup.native.enter="post_chatbot()"
              ></v-text-field>
            <span v-for="item in chatprotocol" :key="item.text">
              <v-chip v-if="item.type === 'question'" label class="blue white--text">
@@ -173,22 +173,20 @@ export default {
   },
   methods: {
     post_chatbot: function() {
-
       this.chatprotocol.push(
         {'type': 'question', 'text': this.chatinput}
       )
 
-      this.chatinput = "";
-
       this.$http.post('http://localhost:5000/functions/chatbot', {
-        text: this.chatinput,
         sessionid: this.chatsessionid,
-
+        input: this.chatinput
       }).then(function(data){
         this.chatprotocol.push(
           {'type': 'answer', 'text': data.body[0].text.toString()}
         );
       })
+
+      this.chatinput = "";
     },
     next_date: function() {
       var index = this.availableDates.indexOf(this.date);

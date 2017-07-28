@@ -302,18 +302,17 @@ def create_app():
         """
 
         # TODO: Validate request data
-        text = flask.request.json['text']
+        chat_input = flask.request.json['input']
         session_id = flask.request.json['sessionid']
-        context = {}
 
         if session_id in chatbot_sessions:
             context = chatbot_sessions[session_id]
+        else:
+            context = {}
 
-        response = Chatbot.conversate(text, context)
+        response = Chatbot.conversate(text=chat_input, context=context)
         chatbot_sessions[session_id] = response['context']
         response_output = response['output']
-
-        print(chatbot_sessions)
 
         return flask.jsonify(response_output, 200)
 
