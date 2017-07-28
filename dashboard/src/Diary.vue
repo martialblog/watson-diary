@@ -100,7 +100,32 @@ y<template>
           </v-card-text>
         </v-card>
       </v-flex>
-        </v-layout>
+    </v-layout>
+
+    <v-layout row wrap>
+      <v-flex xs12 class="text-md-center">
+        <v-card class="mt-3">
+          <v-card-text>
+           <v-text-field
+             name="chatbot-input"
+             single-line
+             prepend-icon="micro"
+             v-model="chatinput"
+             @keyup.native.enter="post_chatbot(chatinput)"
+             ></v-text-field>
+           <span v-for="item in chatprotocol" :key="item.text">
+             <v-chip v-if="item.type === 'question'" label class="blue white--text">
+               {{item.text}}
+             </v-chip>
+             <v-chip v-if="item.type === 'answer'" label class="red white--text">
+               {{item.text}}
+             </v-chip>
+             <br>
+           </span>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
 
   </v-container>
 </template>
@@ -110,6 +135,9 @@ export default {
   data () {
     return {
       username: null,
+      chatinput: "",
+      chatprotocol: [],
+      chatsessionid: '',
       availableDates: [],
       chartoptions: {responsive: true, maintainAspectRatio: false},
       linechartreport: {
@@ -131,6 +159,7 @@ export default {
     }
   },
   created () {
+    this.chatsessionid = Date.now();
     this.username = this.$route.params.username;
 
     this.$http.get('http://localhost:5000/reports/' + this.username).then(function(data){
@@ -143,6 +172,24 @@ export default {
     });
   },
   methods: {
+    post_chatbot: function() {
+
+      this.chatprotocol.push(
+        {'type': 'question', 'text': this.chatinput}
+      )
+
+      this.chatinput = "";
+
+      this.$http.post('http://localhost:5000/functions/chatbot', {
+        text: this.chatinput,
+        sessionid: this.chatsessionid,
+
+      }).then(function(data){
+        this.chatprotocol.push(
+          {'type': 'answer', 'text': data.body[0].text.toString()}
+        );
+      })
+    },
     next_date: function() {
       var index = this.availableDates.indexOf(this.date);
       this.date = this.availableDates[index + 1];

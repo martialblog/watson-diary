@@ -8,9 +8,11 @@ import flask_cors as cors
 import os
 import pymongo
 import utils
+import json
 
 import watson as w
 import report as r
+import chatbot as c
 
 
 def create_app():
@@ -32,6 +34,15 @@ def create_app():
                              password=conf["watson"]["password"],
                              version=conf["watson"]["version"]
     )
+
+    Chatbot = c.Chatbot(url=conf["chatbot"]["url"],
+                        username=conf["chatbot"]["username"],
+                        password=conf["chatbot"]["password"],
+                        version=conf["chatbot"]["version"],
+                        workspace_id=conf["chatbot"]["workspace"]
+    )
+
+    chatbot_sessions = {}
 
     #########
     # Feeds #
@@ -280,8 +291,30 @@ def create_app():
         dates = rm.get_dates()
 
         for date in dates:
-            rm.ta_report(date)
+           rm.ta_report(date)
 
         return flask.jsonify({}, 200)
+
+    @app.route('/functions/chatbot', methods=['POST'])
+    def chatbot():
+        """
+        Talk to chatbot.
+        """
+
+        # TODO: Validate request data
+        text = flask.request.json['text']
+        session_id = flask.request.json['sessionid']
+        context = {}
+
+        if session_id in chatbot_sessions:
+            context = chatbot_sessions[session_id]
+
+        response = Chatbot.conversate(text, context)
+        chatbot_sessions[session_id] = response['context']
+        response_output = response['output']
+
+        print(chatbot_sessions)
+
+        return flask.jsonify(response_output, 200)
 
     return app
