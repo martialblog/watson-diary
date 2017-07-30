@@ -119,8 +119,7 @@
 
           ]
         },
-        { icon: 'help', text: 'Help', link: '/help' },
-        { icon: 'chat_bubble', text: 'Send feedback', link: '/feedback'},
+        { icon: 'help', text: 'Help', link: '/help' }
       ]
     })
   }
