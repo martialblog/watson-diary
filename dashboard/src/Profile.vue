@@ -34,10 +34,23 @@
 
     <v-layout row wrap>
       <v-flex xs12 class="text-md-center">
-        <v-card class="mt-3">
-          <v-card-text>
-            <span>{{ personalityText }}</span>
-          </v-card-text>
+        <v-card class="mt-3" v-for="item in personality"
+                :key="item.name"
+                 v-if="item.data"
+                >
+          <v-card-row class="light-blue darken-1">
+            <v-card-title>
+              <span class="white--text">{{item.name}}</span>
+              <v-spacer></v-spacer>
+            </v-card-title>
+          </v-card-row>
+
+          <v-card-row>
+            <v-card-text>
+              {{item.data}}
+            </v-card-text>
+          </v-card-row>
+
         </v-card>
       </v-flex>
     </v-layout>
@@ -111,11 +124,6 @@
         feeds: []
       }
     },
-  computed: {
-    personalityText() {
-      return this.personality.join(" ");
-    }
-  },
     methods: {
       diary: function (username){
         return "/diary/" + username;
@@ -155,18 +163,78 @@
       var username = this.$route.params.username;
 
       this.$http.get('http://localhost:5000/pireport/' + username).then(function(data){
-        var pi = data.body[0].pi;
-        var traits = {}
+        const interpreter = new PI();
 
-        for (var per of pi.personality[3].children){
-          traits[per.trait_id] = per.percentile;
+        var pi = data.body[0].pi;
+        var openn = {}
+        var consc = {}
+        var extra = {}
+        var agree = {}
+        var range = {}
+        var needs = {}
+
+        for (var per of pi.personality[0].children){
+          openn[per.trait_id] = per.percentile;
         }
 
-        const interpreter = new PI();
-        var a = interpreter.interpretAgreeableness(traits);
-        console.log(a)
+        for (var per of pi.personality[1].children){
+          consc[per.trait_id] = per.percentile;
+        }
 
-        this.personality = a;
+        for (var per of pi.personality[2].children){
+          extra[per.trait_id] = per.percentile;
+        }
+
+        for (var per of pi.personality[3].children){
+          agree[per.trait_id] = per.percentile;
+        }
+
+        for (var per of pi.personality[4].children){
+          range[per.trait_id] = per.percentile;
+        }
+
+        for (var per of pi.needs){
+           needs[per.trait_id] = per.percentile;
+        }
+
+        this.personality.push (
+          { name: "Agreeableness",
+            data: interpreter.interpretAgreeableness(agree).join(" ")
+          }
+        );
+
+        this.personality.push (
+          { name: "Extraversion",
+            data: interpreter.interpretExtraversion(extra).join("")
+          }
+        );
+
+        this.personality.push (
+          { name: "Openness",
+            data: interpreter.interpretOpenness(open).join("")
+          }
+        );
+
+        this.personality.push (
+          { name: "Needs",
+            data: interpreter.interpretNeeds(needs).join("")
+          }
+        );
+
+        this.personality.push (
+          { name: "Emotional Range",
+            data: interpreter.interpretEmotionalRange(range).join("")
+          }
+        );
+
+        this.personality.push (
+          { name: "Conscientiousness",
+            data: interpreter.interpretConscientiousness(consc).join("")
+          }
+        );
+
+        console.log(this.personality);
+
       });
 
       this.$http.get('http://localhost:5000/users/' + username).then(function(data){
