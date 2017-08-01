@@ -113,7 +113,7 @@ y<template>
              v-model="chatinput"
              @keyup.native.enter="post_chatbot()"
              ></v-text-field>
-           <span v-for="item in chatprotocol" :key="item.text">
+           <span v-for="item in reverseItems" :key="item.text">
              <v-chip v-if="item.type === 'question'" label class="blue white--text">
                {{item.text}}
              </v-chip>
@@ -163,13 +163,19 @@ export default {
     this.username = this.$route.params.username;
 
     this.$http.get('http://localhost:5000/reports/' + this.username).then(function(data){
-        for (var value of data.body){
-          this.availableDates.push(value.date);
-          this.date = value.date;
-        }
+      for (var value of data.body){
+        this.availableDates.push(value.date);
+        this.date = value.date;
+      }
       this.get_report();
       this.fill_linechart(data);
+
     });
+  },
+  computed: {
+    reverseItems() {
+      return this.chatprotocol.slice().reverse();
+    }
   },
   methods: {
     post_chatbot: function() {
@@ -181,6 +187,7 @@ export default {
         sessionid: this.chatsessionid,
         input: this.chatinput
       }).then(function(data){
+        console.log(data.body);
         this.chatprotocol.push(
           {'type': 'answer', 'text': data.body[0].text.toString()}
         );
@@ -203,6 +210,7 @@ export default {
       this.get_report();
     },
     fill_chartdata: function (data) {
+
       var res = Object.entries(data).map((value)=>(value));
       var labels = [];
       var values = [];
@@ -237,9 +245,9 @@ export default {
       this.$http.get('http://localhost:5000/reports/' + this.username +'/'+ this.date).then(function(data){
 
         for (var value of data.body){
-          emotion = value.reports[0].nlu.emotion.document.emotion;
-          keywords = value.reports[0].nlu.keywords
-          entities = value.reports[0].nlu.entities;
+          emotion = value.reports.nlu.emotion.document.emotion;
+          keywords = value.reports.nlu.keywords
+          entities = value.reports.nlu.entities;
         }
 
         this.fill_chartdata(emotion);
@@ -257,11 +265,11 @@ export default {
 
       for (var value of data.body){
         labels.push(value.date);
-        fear.push(value.reports[0].nlu.emotion.document.emotion['fear'] * 100);
-        sadness.push(value.reports[0].nlu.emotion.document.emotion['sadness'] * 100);
-        anger.push(value.reports[0].nlu.emotion.document.emotion['anger'] * 100);
-        joy.push(value.reports[0].nlu.emotion.document.emotion['joy'] * 100);
-        disgust.push(value.reports[0].nlu.emotion.document.emotion['disgust'] * 100);
+        fear.push(value.reports.nlu.emotion.document.emotion['fear'] * 100);
+        sadness.push(value.reports.nlu.emotion.document.emotion['sadness'] * 100);
+        anger.push(value.reports.nlu.emotion.document.emotion['anger'] * 100);
+        joy.push(value.reports.nlu.emotion.document.emotion['joy'] * 100);
+        disgust.push(value.reports.nlu.emotion.document.emotion['disgust'] * 100);
       }
 
       var datasets = {

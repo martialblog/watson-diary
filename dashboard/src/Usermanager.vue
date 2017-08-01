@@ -85,7 +85,6 @@
       },
       create_user: function () {
         this.dialog = false;
-        this.users.push(this.newUser);
         this.$http.put('http://localhost:5000/users/' + this.newUser.username, {
 
           username: this.newUser.username,
@@ -95,6 +94,8 @@
 
         }).then(function(data){
           console.log(data);
+          // TODO Fails... why?
+          //this.users.push(this.newUser);
         })
       }
     },
