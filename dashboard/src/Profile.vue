@@ -31,6 +31,18 @@
       </v-card-row>
     </v-card>
 
+
+    <v-layout row wrap>
+      <v-flex xs12 class="text-md-center">
+        <v-card class="mt-3">
+          <v-card-text>
+            <span>{{ personalityText }}</span>
+          </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
+
+
     <v-layout row wrap>
       <v-flex xs12 class="text-xs-right">
 
@@ -65,7 +77,7 @@
                light
                router
                :to="diary(username)"
-               >Diary</v-btn>
+               >Details</v-btn>
 
         <v-btn success
                light
@@ -74,14 +86,19 @@
       </v-flex>
     </v-layout>
 
+
+
   </v-container>
 </template>
 
 <script>
+  import PI from './personalityInterpreter.js';
+
   export default {
     data () {
       return {
         visible: false,
+        personality: [],
         availableFeeds: [],
         dialog: false,
         newFeed: {
@@ -94,6 +111,11 @@
         feeds: []
       }
     },
+  computed: {
+    personalityText() {
+      return this.personality.join(" ");
+    }
+  },
     methods: {
       diary: function (username){
         return "/diary/" + username;
@@ -131,6 +153,22 @@
       });
 
       var username = this.$route.params.username;
+
+      this.$http.get('http://localhost:5000/pireport/' + username).then(function(data){
+        var pi = data.body[0].pi;
+        var traits = {}
+
+        for (var per of pi.personality[3].children){
+          traits[per.trait_id] = per.percentile;
+        }
+
+        const interpreter = new PI();
+        var a = interpreter.interpretAgreeableness(traits);
+        console.log(a)
+
+        this.personality = a;
+      });
+
       this.$http.get('http://localhost:5000/users/' + username).then(function(data){
 
         var user = data.body[0];
