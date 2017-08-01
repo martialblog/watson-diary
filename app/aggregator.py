@@ -31,11 +31,11 @@ class ApiAggregator():
         """
         Loads the entry API data. Returns JSON object.
         """
-
         try:
             resp = requests.get(self.url)
-        except Exception:
+        except Exception as e :
             print("Error Calling API")
+            print(e)
             return {}
 
         return resp.json()

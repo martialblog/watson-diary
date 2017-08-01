@@ -35,7 +35,7 @@ class WatsonConnector():
 
     def report(self, text):
         """
-        Returns the Watson Data for a specific test.
+        Returns the Watson Data for a specific text.
         """
 
         # Real Call
@@ -45,6 +45,5 @@ class WatsonConnector():
 
         # Fake Call, since we only have limited access to IBM
         # payload = self.mock_watson(text)
-        nlu_report = {"nlu": payload}
 
-        return nlu_report
+        return payload

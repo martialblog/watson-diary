@@ -13,6 +13,7 @@ import json
 import watson as w
 import report as r
 import chatbot as c
+import personality as p
 
 
 def create_app():
@@ -33,6 +34,13 @@ def create_app():
                              username=conf["watson"]["username"],
                              password=conf["watson"]["password"],
                              version=conf["watson"]["version"]
+    )
+
+
+    Person = p.Personality(url=conf["personality"]["url"],
+                             username=conf["personality"]["username"],
+                             password=conf["personality"]["password"],
+                             version=conf["personality"]["version"]
     )
 
     Chatbot = c.Chatbot(url=conf["chatbot"]["url"],
@@ -287,13 +295,29 @@ def create_app():
         Generate all reports for specified user.
         """
 
-        rm = r.ReportManager(username, Watson, db)
+        rm = r.ReportManager(username=username,
+                             watson_manager=Watson,
+                             personality=Person,
+                             db_connector=db)
+
         dates = rm.get_dates()
 
-        for date in dates:
-           rm.ta_report(date)
+        for date in ['2017-04-01']:
+           #rm.ta_report(date)
+           rm.pi_report(date)
 
         return flask.jsonify({}, 200)
+
+    # TESTING
+    @app.route('/functions/personality', methods=['POST'])
+    def personality_analize():
+        """
+        Generate all reports for specified user.
+        """
+        val = Person.analize("Hello I'm a happy little text")
+        print(val)
+        return flask.jsonify({}, 200)
+
 
     @app.route('/functions/chatbot', methods=['POST'])
     def chatbot():

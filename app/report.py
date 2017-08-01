@@ -10,10 +10,11 @@ class ReportManager():
     Handles the generation of reports
     """
 
-    def __init__(self, username, watson_manager, db_connector):
+    def __init__(self, username, watson_manager, personality, db_connector):
 
         self.username = username
         self.watson = watson_manager
+        self.person = personality
         self.db = db_connector
         self.aggregators = []
 
@@ -28,11 +29,14 @@ class ReportManager():
             return {}
 
         try:
-            # TODO for debugging hardcoded
+            # TODO for debugging hardcoded, needs to be fixed
             # feeds = user["feeds"]
-            feeds = [{'username': 'realsherlock', 'key': 'facebook'},
-                     {'username': 'realsherlock', 'key': 'twitter'},
-                     {'username': 'realsherlock', 'key': 'gmail'}]
+            feeds = [{'username': 'realsherlock', 'key': 'twitter'}]
+
+            # feeds = [{'username': 'realsherlock', 'key': 'facebook'},
+            #          {'username': 'realsherlock', 'key': 'twitter'},
+            #          {'username': 'realsherlock', 'key': 'gmail'}]
+
         except IndexError as e:
             feeds = {}
         finally:
@@ -40,16 +44,15 @@ class ReportManager():
 
     def init_report(self, date):
 
-        init_report = { "username": self.username,
-                        "date": date,
-        }
+        report = self.db.reports.find_one({"username": self.username, "date": date})
 
-        if "reports" in init_report.keys():
-            pass
-        else:
-            init_report["reports"] = []
+        if not report:
+            report = { "username": self.username,
+                       "date": date,
+                       "reports": {}
+            }
 
-        return init_report
+        return report
 
 
     def init_aggregators(self):
@@ -59,12 +62,11 @@ class ReportManager():
 
         for userfeed in feeds:
             feed = self.db.feeds.find_one({"key": userfeed['key']})
-            if not feed:
-                aggr = ApiAggregator(feed["url"] + userfeed['username'],
-                                     feed["date_field"],
-                                     feed["text_field"])
+            aggr = ApiAggregator(feed["url"] + userfeed['username'],
+                                 feed["date_field"],
+                                 feed["text_field"])
 
-                self.aggregators.append(aggr)
+            self.aggregators.append(aggr)
 
 
     def get_dates(self):
@@ -99,7 +101,37 @@ class ReportManager():
         text = ". ".join(texts)
 
         payload = self.watson.report(text)
-        report["reports"].append(payload)
+
+        report["reports"]["nlu"] = payload
+
+        newid = self.db.reports.replace_one(
+            {"username": self.username, "date": date},
+            report,
+            True)
+
+        return newid.raw_result
+
+    def pi_report(self, date):
+        """
+        Returns the Personality Insight Data for a specific user and date.
+        Returns the ID of the new database entry.
+        """
+
+        report = self.init_report(date)
+        texts = []
+
+        for aggregator in self.aggregators:
+            text = aggregator.aggregate_date(date)
+            if text:
+                texts.append(text)
+
+        if not text:
+            return
+
+        text = ". ".join(texts)
+
+        payload = self.person.analize(text)
+        report["reports"]["pi"] = payload
 
         newid = self.db.reports.replace_one(
             {"username": self.username, "date": date},
