@@ -42,15 +42,15 @@ y<template>
       </v-flex>
     </v-layout>
 
-      <v-layout row wrap>
+    <v-layout row wrap>
       <v-flex xs6 class="text-md-center">
         <h4>{{username}}</h4>
       </v-flex>
       <v-flex xs6 class="text-md-center">
       </v-flex>
-      </v-layout>
+    </v-layout>
 
-    <v-layout row wrap>
+    <v-layout row>
       <v-flex xs6 class="text-md-center">
         <v-card class="mt-3">
           <v-card-text>
@@ -187,7 +187,6 @@ export default {
         sessionid: this.chatsessionid,
         input: this.chatinput
       }).then(function(data){
-        console.log(data.body);
         this.chatprotocol.push(
           {'type': 'answer', 'text': data.body[0].text.toString()}
         );
