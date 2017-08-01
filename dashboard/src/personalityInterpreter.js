@@ -1,11 +1,12 @@
-class personalityInterpreter {
+export default class personalityInterpreter {
 
   // Provide this method with an object: { facet: percentile, [...] }. For exampl: { facet_altruism: 0.92928, facet_cooperation: 0.38433 }
   // Returns an array of strings, describing the most prominent traids of the author in connection to agreeableness.
   interpretAgreeableness(big5_agreeableness) {
     const highValue = 0.65;
     const lowValue = 0.35;
-    big5_agreeableness = { facet_altruism, facet_cooperation, facet_modesty, facet_morality, facet_sympathy, facet_trust };
+    var { facet_altruism, facet_cooperation, facet_modesty, facet_morality, facet_sympathy, facet_trust } = big5_agreeableness;
+
     let result = [];
 
     if (facet_altruism > highValue) {
@@ -53,7 +54,7 @@ class personalityInterpreter {
   interpretConscientiousness(big5_conscientiousness) {
     const highValue = 0.65;
     const lowValue = 0.35;
-    big5_conscientiousness = { facet_achievement_striving, facet_cautiousness, facet_dutifulness, facet_orderliness, facet_self_discipline, facet_self_efficacy};
+    var { facet_achievement_striving, facet_cautiousness, facet_dutifulness, facet_orderliness, facet_self_discipline, facet_self_efficacy} = big5_conscientiousness;
     let result = [];
 
     if (facet_achievement_striving > highValue) {
@@ -101,7 +102,7 @@ class personalityInterpreter {
   interpretExtraversion(big5_extraversion) {
     const highValue = 0.65;
     const lowValue = 0.35;
-    big5_extraversion = { facet_activity_level, facet_assertiveness, facet_cheerfulness, facet_Excitement_seeking, facet_friendliness, facet_gregariousness};
+    var { facet_activity_level, facet_assertiveness, facet_cheerfulness, facet_Excitement_seeking, facet_friendliness, facet_gregariousness} = big5_extraversion;
     let result = [];
 
     if (facet_activity_level > highValue) {
@@ -149,7 +150,7 @@ class personalityInterpreter {
   interpretEmotionalRange(big5_emotional_range) {
     const highValue = 0.65;
     const lowValue = 0.35;
-    big5_emotional_range = { facet_anger, facet_anxiety, facet_depression, facet_immoderation, facet_self_consciousness, facet_vulnerability};
+    var { facet_anger, facet_anxiety, facet_depression, facet_immoderation, facet_self_consciousness, facet_vulnerability} = big5_emotional_range;
     let result = [];
 
     if (facet_anger > highValue) {
@@ -197,7 +198,7 @@ class personalityInterpreter {
   interpretOpenness(big5_openness) {
     const highValue = 0.65;
     const lowValue = 0.35;
-    big5_openness = { facet_adventurousness, facet_artistic_interests, facet_emotionality, facet_imagination, facet_intellect, facet_liberalism};
+    var { facet_adventurousness, facet_artistic_interests, facet_emotionality, facet_imagination, facet_intellect, facet_liberalism} = big5_openness;
     let result = [];
 
     if (facet_adventurousness > highValue) {
@@ -245,7 +246,7 @@ class personalityInterpreter {
   interpretNeeds(needs) {
     const highValue = 0.65;
 
-    needs = { need_excitement, need_harmony, need_curiosity, need_ideal, need_closeness, need_self_expression, need_liberty, need_love, need_practicality, need_stability, need_challenge, need_structure};
+    var { need_excitement, need_harmony, need_curiosity, need_ideal, need_closeness, need_self_expression, need_liberty, need_love, need_practicality, need_stability, need_challenge, need_structure} = needs;
     let result = [];
 
     if (need_excitement > highValue) {
