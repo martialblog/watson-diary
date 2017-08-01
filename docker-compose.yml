@@ -1,0 +1,21 @@
+version: "2"
+services:
+  watson-database:
+    ports:
+     - "27017:27017"
+    image: "mongo:latest"
+  watson-backend:
+    build:
+      context: ./app
+    ports:
+      - "5000:5000"
+  watson-frontend:
+    build:
+      context: ./dashboard
+    ports:
+      - "8080:80"
+  watson-fakeapis:
+    build:
+      context: ./fakeapi
+    ports:
+     - "3000:3000"
