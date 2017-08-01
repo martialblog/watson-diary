@@ -285,6 +285,21 @@ def create_app():
 
         return flask.jsonify({}, 200)
 
+    @app.route('/pireport/<path:username>', methods=['GET'])
+    def get_user_pireport(username):
+        """
+        Returns PI report for specified user.
+        """
+
+        report = db.pireports.find({"username": username})
+        report = json_util.dumps(report)
+
+        status = 200
+        if report == "[]":
+            status = 204
+
+        return report, status
+
     #############
     # Functions #
     #############
@@ -302,20 +317,12 @@ def create_app():
 
         dates = rm.get_dates()
 
-        for date in ['2017-04-01']:
+        for date in dates:
+            pass
            #rm.ta_report(date)
-           rm.pi_report(date)
 
-        return flask.jsonify({}, 200)
+        rm.pi_report()
 
-    # TESTING
-    @app.route('/functions/personality', methods=['POST'])
-    def personality_analize():
-        """
-        Generate all reports for specified user.
-        """
-        val = Person.analize("Hello I'm a happy little text")
-        print(val)
         return flask.jsonify({}, 200)
 
 

@@ -111,19 +111,20 @@ class ReportManager():
 
         return newid.raw_result
 
-    def pi_report(self, date):
+    def pi_report(self):
         """
         Returns the Personality Insight Data for a specific user and date.
         Returns the ID of the new database entry.
         """
 
-        report = self.init_report(date)
         texts = []
 
-        for aggregator in self.aggregators:
-            text = aggregator.aggregate_date(date)
-            if text:
-                texts.append(text)
+        for date in self.get_dates():
+
+            for aggregator in self.aggregators:
+                text = aggregator.aggregate_date(date)
+                if text:
+                    texts.append(text)
 
         if not text:
             return
@@ -131,11 +132,12 @@ class ReportManager():
         text = ". ".join(texts)
 
         payload = self.person.analize(text)
-        report["reports"]["pi"] = payload
+        report = {"username": self.username, "pi": payload}
 
-        newid = self.db.reports.replace_one(
-            {"username": self.username, "date": date},
-            report,
+        print(report)
+
+        newid = self.db.pireports.replace_one(
+            {"username": self.username}, report,
             True)
 
         return newid.raw_result
