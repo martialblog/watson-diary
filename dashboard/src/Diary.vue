@@ -169,8 +169,13 @@ export default {
       }
       this.get_report();
       this.fill_linechart(data);
-
     });
+
+    this.$http.post('http://localhost:5000/functions/chatbot', {
+      sessionid: this.chatsessionid,
+      input: ""
+    })
+
   },
   computed: {
     reverseItems() {
