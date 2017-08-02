@@ -345,6 +345,13 @@ def create_app():
         chatbot_sessions[session_id] = response['context']
         response_output = response['output']
 
+        try:
+            response_output["intent"] = response["intents"]
+        except IndexError as e:
+            response_output["intent"] = []
+
+        print(response_output)
+
         return flask.jsonify(response_output, 200)
 
     return app

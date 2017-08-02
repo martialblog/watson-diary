@@ -67,7 +67,6 @@ y<template>
           <v-card-row class="light-blue darken-4">
             <v-card-title>
               <span class="white--text">{{date}}</span>
-              <v-spacer></v-spacer>
             </v-card-title>
           </v-card-row>
           <v-card-text>
@@ -103,7 +102,7 @@ y<template>
     </v-layout>
 
     <v-layout row wrap>
-      <v-flex xs12>
+      <v-flex xs8>
         <v-card class="mt-3">
           <v-card-text>
            <v-text-field
@@ -125,6 +124,39 @@ y<template>
           </v-card-text>
         </v-card>
       </v-flex>
+
+      <v-flex xs4>
+        <v-expansion-panel class="mt-3">
+          <v-expansion-panel-content>
+            <div slot="header">Emotions</div>
+            <v-card>
+              <v-card-text class="grey lighten-3">
+                <p v-for="item in emotionItems">{{item.text}}</p>
+              </v-card-text>
+            </v-card>
+          </v-expansion-panel-content>
+
+          <v-expansion-panel-content>
+            <div slot="header">Activities</div>
+            <v-card>
+              <v-card-text class="grey lighten-3">
+                <p v-for="item in activityItems">{{item.text}}</p>
+              </v-card-text>
+            </v-card>
+          </v-expansion-panel-content>
+
+          <v-expansion-panel-content>
+            <div slot="header">Weather</div>
+            <v-card>
+              <v-card-text class="grey lighten-3">
+                <p v-for="item in weatherItems">{{item.text}}</p>
+              </v-card-text>
+            </v-card>
+          </v-expansion-panel-content>
+
+        </v-expansion-panel>
+      </v-flex>
+
     </v-layout>
 
   </v-container>
@@ -174,30 +206,51 @@ export default {
     this.$http.post('http://localhost:5000/functions/chatbot', {
       sessionid: this.chatsessionid,
       input: ""
-    })
+    }).then(function(data){})
 
   },
   computed: {
     reverseItems() {
       return this.chatprotocol.slice().reverse();
+    },
+    emotionItems() {
+      return this.chatprotocol.filter(function(item){
+        return item.intent == "emotion"
+      })
+    },
+    weatherItems() {
+      return this.chatprotocol.filter(function(item){
+        return item.intent == "weather"
+      })
+    },
+    activityItems() {
+      return this.chatprotocol.filter(function(item){
+        return item.intent == "activities"
+      })
     }
   },
   methods: {
     post_chatbot: function() {
-      this.chatprotocol.push(
-        {'type': 'question', 'text': this.chatinput}
-      )
-
       this.$http.post('http://localhost:5000/functions/chatbot', {
         sessionid: this.chatsessionid,
         input: this.chatinput
       }).then(function(data){
+
         this.chatprotocol.push(
-          {'type': 'answer', 'text': data.body[0].text.toString()}
+          {'type': 'question',
+           'text': this.chatinput,
+           'intent': data.body[0].intent[0].intent
+          }
         );
+        this.chatprotocol.push(
+          {'type': 'answer',
+           'text': data.body[0].text.toString(),
+           'intent': 'answer'
+          }
+        );
+        this.chatinput = "";
       })
 
-      this.chatinput = "";
     },
     next_date: function() {
       var index = this.availableDates.indexOf(this.date);
