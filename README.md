@@ -4,6 +4,8 @@ Dr. Watson offers an automatic Emotion and Personality analization tool, that ag
 
 ![Watson](watson.png?raw=true "Dr. Watson")
 
+Video Introduction: https://www.youtube.com/watch?v=OA2kC5szX_k
+
 ## Usage
 
 Please see individual READMEs for details.
